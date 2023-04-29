@@ -9,11 +9,6 @@ Tool to extract namespace/functions documentation from Clojure projects into ind
 clojure -X:extract
 ```
 
-## Update version of the configured projects in the config file
-```bash
-clojure -X:update
-```
-
 # Developing
 
 ## Repl
@@ -24,4 +19,9 @@ clojure -M:dev:nrepl
 ## Tests
 ```bash
 clojure -M:dev:test
+```
+
+## Build
+```bash
+clojure -T:build uberjar
 ```

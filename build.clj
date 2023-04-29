@@ -3,7 +3,7 @@
   (:require [clojure.tools.build.api :as b]))
 
 (def default-lib 'codes.clj.docs/extractor)
-(def default-main 'codes.clj.docs.extractor)
+(def default-main 'codes.clj.docs.core)
 (def default-version "0.0.1-SNAPSHOT")
 (def class-dir "target/classes")
 
