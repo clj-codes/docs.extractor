@@ -1,6 +1,6 @@
 # codes.clj.docs/extractor
 
-Tool to extract namespace/functions documentation from Clojure projects into indexed Datalevin file.
+Tool to extract namespace/functions documentation from Clojure projects into indexed [datalevin](https://github.com/juji-io/datalevin) file.
 
 # CLI
 
