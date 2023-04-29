@@ -1,4 +1,4 @@
-(ns codes.clj.docs.adapters
+(ns codes.clj.docs.extractor.adapters
   (:require [clojure.string :as str]))
 
 (defn ^:private assoc-some-transient! [m k v]
