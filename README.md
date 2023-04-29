@@ -1,17 +1,12 @@
 # codes.clj.docs/extractor
 
-Tool to extract namespace/functions documentation from Clojure projects into indexed Datalevin file.
+Tool to extract namespace/functions documentation from Clojure projects into indexed [datalevin](https://github.com/juji-io/datalevin) file.
 
 # CLI
 
 ## Extract and generate datalevin file
 ```bash
 clojure -X:extract
-```
-
-## Update version of the configured projects in the config file
-```bash
-clojure -X:update
 ```
 
 # Developing
@@ -24,4 +19,9 @@ clojure -M:dev:nrepl
 ## Tests
 ```bash
 clojure -M:dev:test
+```
+
+## Build
+```bash
+clojure -T:build uberjar
 ```

@@ -5,10 +5,8 @@
         datalevin/datalevin {:mvn/version "0.8.14"}
         com.cognitect/transit-clj {:mvn/version "1.0.333"}}
  :aliases
- {:extract {:ns-default codes.clj.docs.extractor
+ {:extract {:ns-default codes.clj.docs.core
             :exec-fn extract!}
-  :update {:ns-default codes.clj.docs.extractor
-           :exec-fn update!}
 
   :build {:deps {io.github.clojure/tools.build {:mvn/version "0.9.4"}}
           :ns-default build
