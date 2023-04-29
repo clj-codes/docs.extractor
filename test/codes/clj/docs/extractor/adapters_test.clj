@@ -1,6 +1,6 @@
-(ns codes.clj.docs.adapters-test
+(ns codes.clj.docs.extractor.adapters-test
   (:require [clojure.test :refer [deftest is testing]]
-            [codes.clj.docs.adapters :as adapters]
+            [codes.clj.docs.extractor.adapters :as adapters]
             [matcher-combinators.test :refer [match?]]))
 
 (def analysis-fixture

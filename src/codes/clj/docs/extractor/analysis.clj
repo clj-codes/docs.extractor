@@ -1,4 +1,4 @@
-(ns codes.clj.docs.analysis
+(ns codes.clj.docs.extractor.analysis
   (:require [clj-kondo.core :as kondo]
             [clojure.edn :as edn]
             [clojure.java.io :as io]

@@ -1,4 +1,4 @@
-(ns codes.clj.docs.core
+(ns codes.clj.docs.extractor.core
   (:require [codes.clj.docs.adapters :as adapters]
             [codes.clj.docs.analysis :as analysis])
   (:gen-class))
