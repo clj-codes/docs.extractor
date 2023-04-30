@@ -1,6 +1,5 @@
 (ns codes.clj.docs.extractor.datalevin
-  (:require [clojure.pprint :as pprint]
-            [datalevin.core :as d]))
+  (:require [datalevin.core :as d]))
 
 ;; TODO: add id :db.unique/identity and ref :db.type/ref
 
