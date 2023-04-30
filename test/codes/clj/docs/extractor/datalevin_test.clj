@@ -46,3 +46,32 @@
         (d/close conn)))
 
     (util/delete-files dir)))
+
+(comment
+  ; tests with generated database
+  (let [conn (d/get-conn "target/docs-db" datalevin/db-schemas)
+        db (d/db conn)
+        result (doall (d/q '[:find (pull ?e [*]) ?a ?v
+                             :in $ ?q
+                             :where
+                             [(fulltext $ ?q) [[?e ?a ?v]]]]
+                           db
+                           "assoc"))]
+    (d/close conn)
+    result)
+  ; tests with temporary database
+  (let [db (-> (d/empty-db "/tmp/mydb"
+                           {:text {:db/valueType :db.type/string
+                                   :db/fulltext  true}})
+               (d/db-with
+                [{:db/id 1 :text "assoc!"}
+                 {:db/id 2 :text "assoc"}
+                 {:db/id 3 :text "assoc-in"}
+                 {:db/id 4 :text "assoc-dom"}
+                 {:db/id 5 :text "assoc-meta"}
+                 {:db/id 6 :text "associative?"}]))]
+    (d/q '[:find (pull ?e [*])
+           :in $ ?q
+           :where [(fulltext $ ?q) [[?e ?a ?v]]]]
+         db
+         "assoc")))
