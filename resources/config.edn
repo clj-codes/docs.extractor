@@ -1,7 +1,12 @@
-{:deps {org.clojure/clojure
+{:db   {:dir "target/docs-db"}
+ :deps {org.clojure/clojure
         {:git/url "https://github.com/clojure/clojure"
          :git/tag "clojure-1.11.1"
          :git/sha "ce55092f2b2f5481d25cff6205470c1335760ef6"}
+        org.clojure/core.logic
+        {:git/url "https://github.com/clojure/core.logic"
+         :git/tag "v1.0.1"
+         :git/sha "d854548a1eb0706150bd5f5d939c7bca162c07fb"}
         org.clojure/clojurescript
         {:git/url "https://github.com/clojure/clojurescript"
          :git/tag "r1.11.60"

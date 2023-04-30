@@ -3,7 +3,8 @@
         org.clojure/tools.deps {:mvn/version "0.18.1335"}
         clj-kondo/clj-kondo {:mvn/version "2023.04.14"}
         datalevin/datalevin {:mvn/version "0.8.14"}
-        com.cognitect/transit-clj {:mvn/version "1.0.333"}}
+        com.cognitect/transit-clj {:mvn/version "1.0.333"}
+        org.slf4j/slf4j-nop {:mvn/version "2.0.7"}}
  :aliases
  {:extract {:ns-default codes.clj.docs.extractor.core
             :exec-fn extract!}
