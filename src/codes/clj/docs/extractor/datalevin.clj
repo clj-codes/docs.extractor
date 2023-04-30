@@ -59,17 +59,7 @@
 (def db-schemas
   (merge project-schema library-schema definition-schema))
 
-(comment
-  (require '[codes.clj.docs.extractor.fixtures.analysis :as fix])
-
-  (let [conn (d/get-conn "/tmp/mydb" db-schemas)
-        db (d/db conn)]
-    (d/transact! conn (concat fix/projects-adapted
-                              fix/libraries-adapted
-                              fix/definitions-adapted))
-    (pprint/pprint (d/q '[:find (pull ?e [*])
-                          :in $ ?q
-                          :where [?e :project/name ?q]]
-                        db
-                        "org.clojure/clojure"))
+(defn bulk-transact! [datoms config]
+  (let [conn (-> config :db :dir (d/get-conn db-schemas))]
+    (d/transact! conn datoms)
     (d/close conn)))

@@ -1,7 +1,5 @@
 (ns codes.clj.docs.extractor.analysis
   (:require [clj-kondo.core :as kondo]
-            [clojure.edn :as edn]
-            [clojure.java.io :as io]
             [clojure.tools.deps :as deps]))
 
 (defn download-project!
@@ -35,12 +33,8 @@
      :definitions var-definitions}))
 
 (defn extract!
-  ([]
-   (extract! (io/resource "config.edn")))
-  ([config-file]
-   (->> config-file
-        slurp
-        edn/read-string
-        :deps
-        (map (fn [[project git]]
-               (extract-analysis! project git))))))
+  [config]
+  (->> config
+       :deps
+       (mapv (fn [[project git]]
+               (extract-analysis! project git)))))

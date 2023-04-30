@@ -18,3 +18,8 @@
   (testing "analysis -> definitions"
     (is (match? fixtures.analysis/definitions-adapted
                 (adapters/analysis->definitions fixtures.analysis/raw)))))
+
+(deftest analysis->datoms-test
+  (testing "analysis -> datoms"
+    (is (= 4
+           (count (adapters/analysis->datoms fixtures.analysis/raw))))))

@@ -1,7 +1,8 @@
 (ns codes.clj.docs.extractor.adapters
   (:require [clojure.string :as str]))
 
-(defn ^:private assoc-some-transient! [m k v]
+(defn ^:private assoc-some-transient!
+  [m k v]
   (if (nil? v) m (assoc! m k v)))
 
 (defn ^:private assoc-some
@@ -110,3 +111,9 @@
                         definitions))))
         [])
        (remove inrelevant-definitions)))
+
+(defn analysis->datoms
+  [analysis]
+  (concat (analysis->projects analysis)
+          (analysis->libraries analysis)
+          (analysis->definitions analysis)))
