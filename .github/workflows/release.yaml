@@ -42,8 +42,11 @@ jobs:
       - name: Build Datalevin DB File
         run: clojure -X:extract
 
+      - name: Debug artifacts
+        run: ls -lah target/docs-db
+
       - name: Zips artifacts
-        run: zip -r "docs-db.zip" "target/docs-db/*"
+        run: zip -r docs-db.zip . -i target/docs-db/*
 
       - name: Release to GiHub
         uses: softprops/action-gh-release@v1
