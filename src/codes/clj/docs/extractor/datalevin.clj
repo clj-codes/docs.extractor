@@ -4,9 +4,9 @@
 ;; TODO: add id :db.unique/identity and ref :db.type/ref
 
 (def project-schema
-  {;:project/id     {:db/valueType :db.type/string :unique :db.unique/identity}
-   :project/name     {:db/valueType :db.type/string
-                      :db/fulltext  true}
+  {:project/id       {:db/valueType :db.type/string
+                      :unique :db.unique/identity}
+   :project/name     {:db/valueType :db.type/string}
    :project/group    {:db/valueType :db.type/string}
    :project/artifact {:db/valueType :db.type/string}
    :project/paths    {:db/valueType :db.type/string
@@ -17,11 +17,10 @@
    :project/manifest {:db/valueType :db.type/keyword}})
 
 (def library-schema
-  {;:library/id           {:db/valueType :db.type/string :unique :db.unique/identity}
-   :library/name         {:db/valueType :db.type/string
-                          :db/fulltext  true}
-   :library/project      {:db/valueType :db.type/string} ;todo change to ref
-   ;:library/project      {:db/valueType :db.type/ref}
+  {:library/id           {:db/valueType :db.type/string
+                          :unique :db.unique/identity}
+   :library/name         {:db/valueType :db.type/string}
+   :library/project      {:db/valueType :db.type/ref}
    :library/group        {:db/valueType :db.type/string}
    :library/artifact     {:db/valueType :db.type/string}
    :library/doc          {:db/valueType :db.type/string
@@ -34,13 +33,11 @@
    :library/col          {:db/valueType :db.type/long}})
 
 (def definition-schema
-  {;:definition/id                {:db/valueType :db.type/string :unique :db.unique/identity}
-   :definition/name              {:db/valueType :db.type/string
-                                  :db/fulltext  true}
-   :definition/library           {:db/valueType :db.type/string} ;todo change to ref
-   ;:definition/library           {:db/valueType :db.type/ref}
-   :definition/project           {:db/valueType :db.type/string} ;todo change to ref
-   ;:definition/project           {:db/valueType :db.type/ref}
+  {:definition/id                {:db/valueType :db.type/string
+                                  :unique :db.unique/identity}
+   :definition/name              {:db/valueType :db.type/string}
+   :definition/namespace         {:db/valueType :db.type/string}
+   :definition/library           {:db/valueType :db.type/ref}
    :definition/group             {:db/valueType :db.type/string}
    :definition/artifact          {:db/valueType :db.type/string}
    :definition/doc               {:db/valueType :db.type/string
@@ -52,8 +49,11 @@
    :definition/varargs-min-arity {:db/valueType :db.type/long}
    :definition/added             {:db/valueType :db.type/string}
    :definition/macro             {:db/valueType :db.type/boolean}
+   :definition/private           {:db/valueType :db.type/boolean}
    :definition/row               {:db/valueType :db.type/long}
-   :definition/col               {:db/valueType :db.type/long}})
+   :definition/col               {:db/valueType :db.type/long}
+   :definition/protocol-ns       {:db/valueType :db.type/string}
+   :definition/protocol-name     {:db/valueType :db.type/string}})
 
 (def db-schemas
   (merge project-schema library-schema definition-schema))

@@ -13,7 +13,7 @@
           :ns-default build
           :exec-args {:uber-file "target/extractor.jar"}}
 
-  :dev {:extra-paths ["test" "test-resources"]
+  :dev {:extra-paths ["dev" "test" "test-resources"]
         :extra-deps  {lambdaisland/kaocha           {:mvn/version "1.82.1306"}
                       lambdaisland/kaocha-cloverage {:mvn/version "1.1.89"}
                       nubank/mockfn                 {:mvn/version "0.7.0"}

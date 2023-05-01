@@ -1,7 +1,7 @@
 (ns codes.clj.docs.extractor.log
   (:import [java.time Duration LocalDateTime]))
 
-(defmacro log->fn [& body]
+(defmacro with-log [& body]
   `(do
      (let [executed-form# ~(str (second &form))
            start-time# (LocalDateTime/now)]
