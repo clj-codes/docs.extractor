@@ -114,7 +114,6 @@
   [{:definition/id "org.clojure/clojure/clojure.pprint/pprint-logical-block/0"
     :definition/name "pprint-logical-block"
     :definition/library {:library/id "org.clojure/clojure/clojure.pprint"}
-    :definition/project {:project/id "org.clojure/clojure"}
     :definition/group "org.clojure"
     :definition/artifact "clojure"
     :definition/doc "Execute the body as a pretty printing logical block with output to *out* which \nmust be a pretty printing writer. When used from pprint or cl-format this can be \nassumed. \n\nThis function is intended for use when writing custom dispatch functions.\n\nBefore the body the caller can optionally specify options: :prefix :per-line-prefix \nand :suffix."
@@ -137,7 +136,6 @@
    {:definition/id "org.clojure/clojure/clojure.pprint/print-table/0"
     :definition/defined-by "clojure.core/defn"
     :definition/library {:library/id "org.clojure/clojure/clojure.pprint"}
-    :definition/project {:project/id "org.clojure/clojure"}
     :definition/filename "/src/clj/clojure/pprint/print_table.clj"
     :definition/row 11
     :definition/added "1.3"
