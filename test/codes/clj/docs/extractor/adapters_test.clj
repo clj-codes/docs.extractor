@@ -23,3 +23,14 @@
   (testing "analysis -> datoms"
     (is (= 4
            (count (adapters/analysis->datoms fixtures.analysis/raw))))))
+
+(deftest id-by-test
+  (testing "id-by should generate id string"
+    (is (match? [{:name "juxt", :group "core", :row 1, :id "juxt/core/0"}
+                 {:name "juxt", :group "core", :row 2, :id "juxt/core/1"}
+                 {:name "assoc", :group "core", :row 1, :id "assoc/core/0"}]
+                (adapters/id-by (juxt :name :group)
+                                :id
+                                [{:name "juxt" :group "core" :row 1}
+                                 {:name "juxt" :group "core" :row 2}
+                                 {:name "assoc" :group "core" :row 1}])))))
