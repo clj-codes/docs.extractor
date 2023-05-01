@@ -1,0 +1,54 @@
+name: Release
+
+# Controls when the action will run.
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+
+  build-release:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Write release version
+        run: |
+          TAG=${{github.ref_name}}
+          echo "VERSION=${TAG:1}" >> $GITHUB_ENV
+
+      - name: Prepare java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Install clojure cli
+        uses: DeLaGuardo/setup-clojure@master
+        with:
+          cli: 1.11.1.1273
+
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/deps.edn') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Build Datalevin DB File
+        run: clojure -X:extract
+
+      - name: Zips artifacts
+        run: zip -r "docs-db.zip" "target/docs-db/*"
+
+      - name: Release to GiHub
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "*.zip"
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
