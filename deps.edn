@@ -14,7 +14,8 @@
           :exec-args {:uber-file "target/extractor.jar"}}
 
   :dev {:extra-paths ["dev" "test" "test-resources"]
-        :extra-deps  {lambdaisland/kaocha           {:mvn/version "1.82.1306"}
+        :extra-deps  {clj-http/clj-http             {:mvn/version "3.12.3"}
+                      lambdaisland/kaocha           {:mvn/version "1.82.1306"}
                       lambdaisland/kaocha-cloverage {:mvn/version "1.1.89"}
                       nubank/mockfn                 {:mvn/version "0.7.0"}
                       nubank/matcher-combinators    {:mvn/version "3.8.5"}}}
