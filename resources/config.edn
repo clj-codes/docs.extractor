@@ -7,7 +7,27 @@
         {:git/url "https://github.com/clojure/core.logic"
          :git/tag "v1.0.1"
          :git/sha "d854548a1eb0706150bd5f5d939c7bca162c07fb"}
-        org.clojure/clojurescript
-        {:git/url "https://github.com/clojure/clojurescript"
-         :git/tag "r1.11.60"
-         :git/sha "e7cdc70d0371a26e07e394ea9cd72d5c43e5e363"}}}
+        org.clojure/core.async
+        {:git/url "https://github.com/clojure/core.async"
+         :git/tag "v1.6.673"
+         :git/sha "96adc333bb02c8fc60bd51306950b3ad291b3460"}
+        org.clojure/core.cache
+        {:git/url "https://github.com/clojure/core.cache"
+         :git/tag "v1.0.225"
+         :git/sha "b9b3192fd7beda68a06af7de4b6d4c2a54515094"}
+        org.clojure/core.memoize
+        {:git/url "https://github.com/clojure/core.memoize"
+         :git/tag "v1.0.257"
+         :git/sha "30adac08491ab6dd23db452215dd0c38ea0a42f4"}
+        org.clojure/data.csv
+        {:git/url "https://github.com/clojure/data.csv"
+         :git/tag "v1.0.1"
+         :git/sha "80c94ef6592f07d62c489359e8535343689d8135"}
+        org.clojure/data.xml
+        {:git/url "https://github.com/clojure/data.xml"
+         :git/tag "v0.2.0-alpha8"
+         :git/sha "4fbff240e0e4d57537b616fc4c2b7f28f6555e20"}
+        org.clojure/data.json
+        {:git/url "https://github.com/clojure/data.json"
+         :git/tag "v2.4.0"
+         :git/sha "43c122e91c5c5e46dc58dc7e8fcbb64bb9f88a14"}}}

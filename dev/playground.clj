@@ -1,11 +1,47 @@
 (ns dev.playground
-  (:require [codes.clj.docs.extractor.core :as core]
+  (:require [clj-http.client :as http]
+            [clojure.java.io :as io]
+            [codes.clj.docs.extractor.core :as core]
             [codes.clj.docs.extractor.datalevin :as datalevin]
             [datalevin.core :as d]
-            [datalevin.util :as util]))
+            [datalevin.util :as util])
+  (:import [java.io File]))
+
+(defn get-url [git-url]
+  (-> (http/get git-url {:as :json})
+      :body))
+
+(defn download-unzip [dir url]
+  (let [stream (-> (http/get url {:as :byte-array})
+                   :body
+                   io/input-stream
+                   java.util.zip.ZipInputStream.)]
+    (loop [file-data (.getNextEntry stream)]
+      (when file-data
+        (let [file-path (str dir File/separatorChar (.getName file-data))
+              saveFile (File. file-path)]
+          (if (.isDirectory file-data)
+            (when-not (.exists saveFile)
+              (.mkdirs saveFile))
+            (let [parentDir (File. (.substring file-path 0 (.lastIndexOf file-path (int File/separatorChar))))]
+              (when-not (.exists parentDir)
+                (.mkdirs parentDir))
+              (io/copy stream saveFile))))
+        (recur (.getNextEntry stream))))))
 
 (comment
-  ; reset database
+  ; reset database & download unzip from releases
+  (let [dir "target/docs-db"]
+    (println "deleting")
+    (try (util/delete-files dir) (catch Exception _))
+    (println "downloading")
+    (->> "https://api.github.com/repos/clj-codes/docs.extractor/releases/latest"
+         get-url
+         :tag_name
+         (format "https://github.com/clj-codes/docs.extractor/releases/download/%s/docs-db.zip")
+         (download-unzip dir)))
+
+  ; reset database & generate new database
   (let [dir "target/docs-db"]
     (println "deleting")
     (try (util/delete-files dir) (catch Exception _))
@@ -31,7 +67,8 @@
                                                    :definition/name
                                                    :definition/group
                                                    :definition/artifact
-                                                   :definition/namespace]) ...]
+                                                   :definition/namespace
+                                                   :definition/git-source]) ...]
                                   :in $ ?q
                                   :where
                                   [(str ".*" ?q ".*") ?pattern]
@@ -52,29 +89,21 @@
   (let [conn (d/get-conn "target/docs-db" datalevin/db-schemas)
         db (d/db conn)
         result (doall (d/q '[:find (count ?e)
-                             :in $ ?q
+                             :in $
                              :where [?e]]
-                           db
-                           "assoc"))]
+                           db))]
     (d/close conn)
     result)
 
-  ; tests with temporary database
-  (let [db (-> (d/empty-db "/tmp/mydb"
-                           {:text {:db/valueType :db.type/string}})
-               (d/db-with
-                [{:db/id 1 :text "assoc!"}
-                 {:db/id 2 :text "assoc"}
-                 {:db/id 3 :text "assoc-in"}
-                 {:db/id 4 :text "assoc-dom"}
-                 {:db/id 5 :text "assoc-meta"}
-                 {:db/id 6 :text "associative?"}]))]
-    (d/q '[:find (pull ?e [*])
-           :in $ ?q
-           :where ;[(fulltext $ ?q) [[?e ?a ?v]]]
-           [(str ".*" ?q ".*") ?pattern]
-           [(re-pattern ?pattern) ?regex]
-           [(re-matches ?regex ?name)]
-           [?e :text ?name]]
-         db
-         "assoc")))
+  ; tests with fulltext search
+  (let [conn (d/get-conn "target/docs-db" datalevin/db-schemas)
+        db (d/db conn)
+        result (doall (d/q '[:find ?e ?name ?a ?v
+                             :in $ ?q
+                             :where
+                             [(fulltext $ ?q) [[?e ?a ?v]]]
+                             [?e :definition/name ?name]]
+                           db
+                           "assoc"))]
+    (d/close conn)
+    result))
