@@ -89,7 +89,7 @@
   (let [conn (d/get-conn "target/docs-db" datalevin/db-schemas)
         db (d/db conn)
         result (doall (d/q '[:find (count ?e)
-                             :in $ 
+                             :in $
                              :where [?e]]
                            db))]
     (d/close conn)
