@@ -67,8 +67,8 @@
                                                    :definition/name
                                                    :definition/group
                                                    :definition/artifact
-                                                   :definition/namespace
-                                                   :definition/git-source]) ...]
+                                                   :definition/git-source
+                                                   {:definition/namespace [:namespace/name]}]) ...]
                                   :in $ ?q
                                   :where
                                   [(str ".*" ?q ".*") ?pattern]

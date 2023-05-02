@@ -68,38 +68,38 @@
                    :project/manifest (:deps/manifest project))))
    analysis))
 
-(defn analysis->libraries
+(defn analysis->namespaces
   [analysis]
   (reduce
-   (fn [accum {:keys [project libraries]}]
+   (fn [accum {:keys [project namespaces]}]
      (into accum
            (let [{:git/keys [url tag] :deps/keys [root]} project
                  [group artifact] (-> project :project-name (str/split #"/"))]
-             (->> libraries
+             (->> namespaces
                   group-multi-langs
                   (mapv (fn [{:keys [end-row meta name-end-col name-end-row name-row added
                                      name author filename col name-col end-col doc row]}]
                           (let [trim-filename (str/replace filename root "")]
                             (assoc-some
-                             {:library/id (str/join "/" [group artifact name])
-                              :library/project {:project/id (:project-name project)}
-                              :library/group group
-                              :library/artifact artifact
-                              :library/name (str name)}
-                             :library/end-row end-row
-                             :library/meta meta
-                             :library/name-end-col name-end-col
-                             :library/name-end-row name-end-row
-                             :library/name-row name-row
-                             :library/added added
-                             :library/author author
-                             :library/filename trim-filename
-                             :library/git-source (str url "/blob/" tag trim-filename "#L" row)
-                             :library/col col
-                             :library/name-col name-col
-                             :library/end-col end-col
-                             :library/doc doc
-                             :library/row row))))))))
+                             {:namespace/id (str/join "/" [group artifact name])
+                              :namespace/project {:project/id (:project-name project)}
+                              :namespace/group group
+                              :namespace/artifact artifact
+                              :namespace/name (str name)}
+                             :namespace/end-row end-row
+                             :namespace/meta meta
+                             :namespace/name-end-col name-end-col
+                             :namespace/name-end-row name-end-row
+                             :namespace/name-row name-row
+                             :namespace/added added
+                             :namespace/author author
+                             :namespace/filename trim-filename
+                             :namespace/git-source (str url "/blob/" tag trim-filename "#L" row)
+                             :namespace/col col
+                             :namespace/name-col name-col
+                             :namespace/end-col end-col
+                             :namespace/doc doc
+                             :namespace/row row))))))))
    []
    analysis))
 
@@ -127,8 +127,8 @@
                                    :definition/artifact artifact
                                    :definition/name (str name)}
                                   :definition/defined-by (some-> defined-by str)
-                                  :definition/namespace (some-> ns str)
-                                  :definition/library (when ns {:library/id (str/join "/" [group artifact ns])})
+                                  :definition/namespace (when ns {:namespace/id (str/join "/" [group artifact ns])
+                                                                  :namespace/name (str ns)})
                                   :definition/fixed-arities fixed-arities
                                   :definition/arglist-strs arglist-strs
                                   :definition/end-row end-row
@@ -153,7 +153,7 @@
         [])
        (id-by (juxt :definition/group
                     :definition/artifact
-                    :definition/namespace
+                    #(get-in % [:definition/namespace :namespace/name])
                     :definition/name)
               :definition/id)
        (remove inrelevant-definitions)))
@@ -161,5 +161,5 @@
 (defn analysis->datoms
   [analysis]
   (concat (analysis->projects analysis)
-          (analysis->libraries analysis)
+          (analysis->namespaces analysis)
           (analysis->definitions analysis)))

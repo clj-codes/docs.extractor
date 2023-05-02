@@ -29,7 +29,7 @@
   (let [{:keys [paths] :as project-meta} (download-project! project git)
         {:keys [var-definitions namespace-definitions]} (kondo-run! paths)]
     {:project project-meta
-     :libraries namespace-definitions
+     :namespaces namespace-definitions
      :definitions var-definitions}))
 
 (defn extract!
