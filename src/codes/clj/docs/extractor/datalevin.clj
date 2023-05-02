@@ -16,28 +16,27 @@
    :project/sha      {:db/valueType :db.type/string}
    :project/manifest {:db/valueType :db.type/keyword}})
 
-(def library-schema
-  {:library/id           {:db/valueType :db.type/string
-                          :unique :db.unique/identity}
-   :library/name         {:db/valueType :db.type/string}
-   :library/project      {:db/valueType :db.type/ref}
-   :library/group        {:db/valueType :db.type/string}
-   :library/artifact     {:db/valueType :db.type/string}
-   :library/doc          {:db/valueType :db.type/string
-                          :db/fulltext  true}
-   :library/author       {:db/valueType :db.type/string}
-   :library/filename     {:db/valueType :db.type/string}
-   :library/git-source   {:db/valueType :db.type/string}
-   :library/added        {:db/valueType :db.type/string}
-   :library/row          {:db/valueType :db.type/long}
-   :library/col          {:db/valueType :db.type/long}})
+(def namespace-schema
+  {:namespace/id           {:db/valueType :db.type/string
+                            :unique :db.unique/identity}
+   :namespace/name         {:db/valueType :db.type/string}
+   :namespace/project      {:db/valueType :db.type/ref}
+   :namespace/group        {:db/valueType :db.type/string}
+   :namespace/artifact     {:db/valueType :db.type/string}
+   :namespace/doc          {:db/valueType :db.type/string
+                            :db/fulltext  true}
+   :namespace/author       {:db/valueType :db.type/string}
+   :namespace/filename     {:db/valueType :db.type/string}
+   :namespace/git-source   {:db/valueType :db.type/string}
+   :namespace/added        {:db/valueType :db.type/string}
+   :namespace/row          {:db/valueType :db.type/long}
+   :namespace/col          {:db/valueType :db.type/long}})
 
 (def definition-schema
   {:definition/id                {:db/valueType :db.type/string
                                   :unique :db.unique/identity}
    :definition/name              {:db/valueType :db.type/string}
-   :definition/namespace         {:db/valueType :db.type/string}
-   :definition/library           {:db/valueType :db.type/ref}
+   :definition/namespace         {:db/valueType :db.type/ref}
    :definition/group             {:db/valueType :db.type/string}
    :definition/artifact          {:db/valueType :db.type/string}
    :definition/doc               {:db/valueType :db.type/string
@@ -56,7 +55,7 @@
    :definition/protocol-name     {:db/valueType :db.type/string}})
 
 (def db-schemas
-  (merge project-schema library-schema definition-schema))
+  (merge project-schema namespace-schema definition-schema))
 
 (defn bulk-transact! [datoms config]
   (let [conn (-> config :db :dir (d/get-conn db-schemas))]

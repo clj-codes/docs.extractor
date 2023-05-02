@@ -12,20 +12,20 @@
                       "/Users/username/.gitlibs/libs/org.clojure/clojure/ce55092f2b2f5481d25cff6205470c1335760ef6/src/resources"
                       "/Users/username/.gitlibs/libs/org.clojure/clojure/ce55092f2b2f5481d25cff6205470c1335760ef6/src/clj"]
               :project-name "org.clojure/clojure"}
-    :libraries [{:end-row 39
-                 :meta {}
-                 :name-end-col 19
-                 :name-end-row 37
-                 :name-row 37
-                 :added "1.2"
-                 :name 'clojure.pprint
-                 :author "Tom Faulhaber"
-                 :filename "/Users/username/.gitlibs/libs/org.clojure/clojure/ce55092f2b2f5481d25cff6205470c1335760ef6/src/clj/clojure/pprint.clj"
-                 :col 1
-                 :name-col 5
-                 :end-col 40
-                 :doc "A Pretty Printer for Clojure\n\nclojure.pprint implements a flexible system for printing structured data\nin a pleasing easy-to-understand format. Basic use of the pretty printer is \nsimple just call pprint instead of println. More advanced users can use \nthe building blocks provided to create custom output formats. \n\nOut of the box pprint supports a simple structured format for basic data \nand a specialized format for Clojure source code. More advanced formats \nincluding formats that don't look like Clojure data at all like XML and \nJSON can be rendered by creating custom dispatch functions. \n\nIn addition to the pprint function this module contains cl-format a text \nformatting function which is fully compatible with the format function in \nCommon Lisp. Because pretty printing directives are directly integrated with\ncl-format it supports very concise custom dispatch. It also provides\na more powerful alternative to Clojure's standard format function.\n\nSee documentation for pprint and cl-format for more information or \ncomplete documentation on the Clojure web site on GitHub."
-                 :row 14}]
+    :namespaces [{:end-row 39
+                  :meta {}
+                  :name-end-col 19
+                  :name-end-row 37
+                  :name-row 37
+                  :added "1.2"
+                  :name 'clojure.pprint
+                  :author "Tom Faulhaber"
+                  :filename "/Users/username/.gitlibs/libs/org.clojure/clojure/ce55092f2b2f5481d25cff6205470c1335760ef6/src/clj/clojure/pprint.clj"
+                  :col 1
+                  :name-col 5
+                  :end-col 40
+                  :doc "A Pretty Printer for Clojure\n\nclojure.pprint implements a flexible system for printing structured data\nin a pleasing easy-to-understand format. Basic use of the pretty printer is \nsimple just call pprint instead of println. More advanced users can use \nthe building blocks provided to create custom output formats. \n\nOut of the box pprint supports a simple structured format for basic data \nand a specialized format for Clojure source code. More advanced formats \nincluding formats that don't look like Clojure data at all like XML and \nJSON can be rendered by creating custom dispatch functions. \n\nIn addition to the pprint function this module contains cl-format a text \nformatting function which is fully compatible with the format function in \nCommon Lisp. Because pretty printing directives are directly integrated with\ncl-format it supports very concise custom dispatch. It also provides\na more powerful alternative to Clojure's standard format function.\n\nSee documentation for pprint and cl-format for more information or \ncomplete documentation on the Clojure web site on GitHub."
+                  :row 14}]
     :definitions [{:end-row 109
                    :meta {}
                    :name-end-col 30
@@ -89,31 +89,31 @@
     :project/sha "ce55092f2b2f5481d25cff6205470c1335760ef6"
     :project/manifest :pom}])
 
-(def libraries-adapted
-  [{:library/id "org.clojure/clojure/clojure.pprint"
-    :library/name "clojure.pprint"
-    :library/project {:project/id "org.clojure/clojure"}
-    :library/group "org.clojure"
-    :library/artifact "clojure"
-    :library/doc "A Pretty Printer for Clojure\n\nclojure.pprint implements a flexible system for printing structured data\nin a pleasing easy-to-understand format. Basic use of the pretty printer is \nsimple just call pprint instead of println. More advanced users can use \nthe building blocks provided to create custom output formats. \n\nOut of the box pprint supports a simple structured format for basic data \nand a specialized format for Clojure source code. More advanced formats \nincluding formats that don't look like Clojure data at all like XML and \nJSON can be rendered by creating custom dispatch functions. \n\nIn addition to the pprint function this module contains cl-format a text \nformatting function which is fully compatible with the format function in \nCommon Lisp. Because pretty printing directives are directly integrated with\ncl-format it supports very concise custom dispatch. It also provides\na more powerful alternative to Clojure's standard format function.\n\nSee documentation for pprint and cl-format for more information or \ncomplete documentation on the Clojure web site on GitHub."
-    :library/author "Tom Faulhaber"
-    :library/filename "/src/clj/clojure/pprint.clj"
-    :library/git-source "https://github.com/clojure/clojure/blob/clojure-1.11.1/src/clj/clojure/pprint.clj#L14"
-    :library/meta {}
-    :library/added "1.2"
-    :library/name-col 5
-    :library/name-end-col 19
-    :library/name-end-row 37
-    :library/end-col 40
-    :library/end-row 39
-    :library/name-row 37
-    :library/row 14
-    :library/col 1}])
+(def namespaces-adapted
+  [{:namespace/id "org.clojure/clojure/clojure.pprint"
+    :namespace/name "clojure.pprint"
+    :namespace/project {:project/id "org.clojure/clojure"}
+    :namespace/group "org.clojure"
+    :namespace/artifact "clojure"
+    :namespace/doc "A Pretty Printer for Clojure\n\nclojure.pprint implements a flexible system for printing structured data\nin a pleasing easy-to-understand format. Basic use of the pretty printer is \nsimple just call pprint instead of println. More advanced users can use \nthe building blocks provided to create custom output formats. \n\nOut of the box pprint supports a simple structured format for basic data \nand a specialized format for Clojure source code. More advanced formats \nincluding formats that don't look like Clojure data at all like XML and \nJSON can be rendered by creating custom dispatch functions. \n\nIn addition to the pprint function this module contains cl-format a text \nformatting function which is fully compatible with the format function in \nCommon Lisp. Because pretty printing directives are directly integrated with\ncl-format it supports very concise custom dispatch. It also provides\na more powerful alternative to Clojure's standard format function.\n\nSee documentation for pprint and cl-format for more information or \ncomplete documentation on the Clojure web site on GitHub."
+    :namespace/author "Tom Faulhaber"
+    :namespace/filename "/src/clj/clojure/pprint.clj"
+    :namespace/git-source "https://github.com/clojure/clojure/blob/clojure-1.11.1/src/clj/clojure/pprint.clj#L14"
+    :namespace/meta {}
+    :namespace/added "1.2"
+    :namespace/name-col 5
+    :namespace/name-end-col 19
+    :namespace/name-end-row 37
+    :namespace/end-col 40
+    :namespace/end-row 39
+    :namespace/name-row 37
+    :namespace/row 14
+    :namespace/col 1}])
 
 (def definitions-adapted
   [{:definition/id "org.clojure/clojure/clojure.pprint/pprint-logical-block/0"
     :definition/name "pprint-logical-block"
-    :definition/library {:library/id "org.clojure/clojure/clojure.pprint"}
+    :definition/namespace {:namespace/id "org.clojure/clojure/clojure.pprint"}
     :definition/group "org.clojure"
     :definition/artifact "clojure"
     :definition/doc "Execute the body as a pretty printing logical block with output to *out* which \nmust be a pretty printing writer. When used from pprint or cl-format this can be \nassumed. \n\nThis function is intended for use when writing custom dispatch functions.\n\nBefore the body the caller can optionally specify options: :prefix :per-line-prefix \nand :suffix."
@@ -135,7 +135,7 @@
     :definition/col 1}
    {:definition/id "org.clojure/clojure/clojure.pprint/print-table/0"
     :definition/defined-by "clojure.core/defn"
-    :definition/library {:library/id "org.clojure/clojure/clojure.pprint"}
+    :definition/namespace {:namespace/id "org.clojure/clojure/clojure.pprint"}
     :definition/filename "/src/clj/clojure/pprint/print_table.clj"
     :definition/row 11
     :definition/added "1.3"

@@ -9,10 +9,10 @@
     (is (match? fixtures.analysis/projects-adapted
                 (adapters/analysis->projects fixtures.analysis/raw)))))
 
-(deftest analysis->libraries-test
-  (testing "analysis -> libraries"
-    (is (match? fixtures.analysis/libraries-adapted
-                (adapters/analysis->libraries fixtures.analysis/raw)))))
+(deftest analysis->namespaces-test
+  (testing "analysis -> namespaces"
+    (is (match? fixtures.analysis/namespaces-adapted
+                (adapters/analysis->namespaces fixtures.analysis/raw)))))
 
 (deftest analysis->definitions-test
   (testing "analysis -> definitions"
