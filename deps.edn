@@ -5,9 +5,13 @@
         datalevin/datalevin {:mvn/version "0.8.14"}
         com.cognitect/transit-clj {:mvn/version "1.0.333"}
         org.slf4j/slf4j-nop {:mvn/version "2.0.7"}}
+
  :aliases
  {:extract {:ns-default codes.clj.docs.extractor.core
-            :exec-fn extract!}
+            :exec-fn extract!
+            ; needed for datalevin on jvm > 11
+            :jvm-opts ["--add-opens=java.base/java.nio=ALL-UNNAMED"
+                       "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED"]}
 
   :build {:deps {io.github.clojure/tools.build {:mvn/version "0.9.4"}}
           :ns-default build
@@ -18,7 +22,10 @@
                       lambdaisland/kaocha           {:mvn/version "1.82.1306"}
                       lambdaisland/kaocha-cloverage {:mvn/version "1.1.89"}
                       nubank/mockfn                 {:mvn/version "0.7.0"}
-                      nubank/matcher-combinators    {:mvn/version "3.8.5"}}}
+                      nubank/matcher-combinators    {:mvn/version "3.8.5"}}
+        ; needed for datalevin on jvm > 11
+        :jvm-opts ["--add-opens=java.base/java.nio=ALL-UNNAMED"
+                   "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED"]}
 
   :nrepl {:extra-deps {cider/cider-nrepl {:mvn/version "0.30.0"}}
           :main-opts ["-m" "nrepl.cmdline" "--middleware" "[cider.nrepl/cider-middleware]"]}
