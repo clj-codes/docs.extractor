@@ -5,6 +5,7 @@
         datalevin/datalevin {:mvn/version "0.8.14"}
         com.cognitect/transit-clj {:mvn/version "1.0.333"}
         org.slf4j/slf4j-nop {:mvn/version "2.0.7"}}
+
  :aliases
  {:extract {:ns-default codes.clj.docs.extractor.core
             :exec-fn extract!}
@@ -21,7 +22,9 @@
                       nubank/matcher-combinators    {:mvn/version "3.8.5"}}}
 
   :nrepl {:extra-deps {cider/cider-nrepl {:mvn/version "0.30.0"}}
-          :main-opts ["-m" "nrepl.cmdline" "--middleware" "[cider.nrepl/cider-middleware]"]}
+          :main-opts ["-m" "nrepl.cmdline" "--middleware" "[cider.nrepl/cider-middleware]"]
+          :jvm-opts ["--add-opens=java.base/java.nio=ALL-UNNAMED"
+                     "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED"]}
 
   :test {:main-opts ["-m" "kaocha.runner"]
          :jvm-opts  ["-Xms3g" "-Xmx3g"]}}}
