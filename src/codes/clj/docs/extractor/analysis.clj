@@ -1,5 +1,7 @@
 (ns codes.clj.docs.extractor.analysis
   (:require [clj-kondo.core :as kondo]
+            [clojure.edn :as edn]
+            [clojure.java.io :as io]
             [clojure.tools.deps :as deps]))
 
 (defn download-project!
@@ -24,17 +26,24 @@
       (dissoc :namespace-usages
               :var-usages)))
 
+(defn extract-extras!
+  [paths]
+  (reduce (fn [accum path] (into accum (-> path io/resource slurp edn/read-string)))
+          []
+          paths))
+
 (defn extract-analysis!
-  [project git]
-  (let [{:keys [paths] :as project-meta} (download-project! project git)
-        {:keys [var-definitions namespace-definitions]} (kondo-run! paths)]
+  [project-name project-config]
+  (let [{:keys [paths] :as project-meta} (download-project! project-name project-config)
+        {:keys [var-definitions namespace-definitions]} (kondo-run! paths)
+        extra-definitions (extract-extras! (-> project-config :extras :definitions))]
     {:project project-meta
      :namespaces namespace-definitions
-     :definitions var-definitions}))
+     :definitions (into var-definitions extra-definitions)}))
 
 (defn extract!
   [config]
   (->> config
        :deps
-       (mapv (fn [[project git]]
-               (extract-analysis! project git)))))
+       (mapv (fn [[project-name project-config]]
+               (extract-analysis! project-name project-config)))))

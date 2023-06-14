@@ -65,20 +65,21 @@
         db (d/db conn)
         result (doall (->> (d/q '[:find [(pull ?e [:definition/id
                                                    :definition/name
+                                                   :definition/doc
                                                    :definition/group
                                                    :definition/artifact
                                                    :definition/git-source
                                                    {:definition/namespace [:namespace/name]}]) ...]
                                   :in $ ?q
                                   :where
-                                  [(str ".*" ?q ".*") ?pattern]
+                                  [(str ?q ".*") ?pattern]
                                   [(re-pattern ?pattern) ?regex]
                                   [(re-matches ?regex ?name)]
                                   [?e :definition/name ?name]
                                   [?e :definition/private false]
                                   (not [?e :definition/defined-by "cljs.core/defprotocol"])]
                                 db
-                                "assoc")
+                                "def")
                            (sort-by (juxt
                                      :definition/id
                                      :definition/name))))]

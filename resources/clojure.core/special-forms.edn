@@ -1,0 +1,74 @@
+[{:name "def",
+  :ns "clojure.core",
+  :doc
+  "Creates and interns or locates a global var with the name of symbol and a\nnamespace of the value of the current namespace (*ns*). See\nhttp://clojure.org/special_forms for more information.",
+  :meta {:type "special-form"}}
+ {:name "if",
+  :ns "clojure.core",
+  :doc "Evaluates test.",
+  :meta {:type "special-form"}}
+ {:name "do",
+  :ns "clojure.core",
+  :doc
+  "Evaluates the expressions in order and returns the value of the last. If no\nexpressions are supplied, returns nil. See http://clojure.org/special_forms\nfor more information.",
+  :meta {:type "special-form"}}
+ {:name "quote",
+  :ns "clojure.core",
+  :doc
+  "Yields the unevaluated form. See http://clojure.org/special_forms for more\ninformation.",
+  :meta {:type "special-form"}}
+ {:name "var",
+  :ns "clojure.core",
+  :doc
+  "The symbol must resolve to a var, and the Var object itself (not its value)\nis returned. The reader macro #'x expands to (var x). See\nhttp://clojure.org/special_forms for more information.",
+  :meta {:type "special-form"}}
+ {:name "recur",
+  :ns "clojure.core",
+  :doc
+  "Evaluates the exprs in order, then, in parallel, rebinds the bindings of\nthe recursion point to the values of the exprs. See\nhttp://clojure.org/special_forms for more information.",
+  :meta {:type "special-form"}}
+ {:name "throw",
+  :ns "clojure.core",
+  :doc
+  "The expr is evaluated and thrown, therefore it should yield an instance of\nsome derivee of Throwable. Please see http://clojure.org/special_forms#throw",
+  :meta {:type "special-form"}}
+ {:name "try",
+  :ns "clojure.core",
+  :doc
+  "The exprs are evaluated and, if no exceptions occur, the value of the last\nis returned. If an exception occurs and catch clauses are provided, each is\nexamined in turn and the first for which the thrown exception is an instance\nof the named class is considered a matching catch clause. If there is a\nmatching catch clause, its exprs are evaluated in a context in which name is\nbound to the thrown exception, and the value of the last is the return value\nof the function. If there is no matching catch clause, the exception\npropagates out of the function. Before returning, normally or abnormally,\nany finally exprs will be evaluated for their side effects. See\nhttp://clojure.org/special_forms for more information.",
+  :meta {:type "special-form"}}
+ {:name "catch",
+  :ns "clojure.core",
+  :doc
+  "The exprs are evaluated and, if no exceptions occur, the value of the last\nis returned. If an exception occurs and catch clauses are provided, each is\nexamined in turn and the first for which the thrown exception is an instance\nof the named class is considered a matching catch clause. If there is a\nmatching catch clause, its exprs are evaluated in a context in which name is\nbound to the thrown exception, and the value of the last is the return value\nof the function. If there is no matching catch clause, the exception\npropagates out of the function. Before returning, normally or abnormally,\nany finally exprs will be evaluated for their side effects. See\nhttp://clojure.org/special_forms for more information.",
+  :meta {:type "special-form"}}
+ {:name "finally",
+  :ns "clojure.core",
+  :doc
+  "The exprs are evaluated and, if no exceptions occur, the value of the last\nis returned. If an exception occurs and catch clauses are provided, each is\nexamined in turn and the first for which the thrown exception is an instance\nof the named class is considered a matching catch clause. If there is a\nmatching catch clause, its exprs are evaluated in a context in which name is\nbound to the thrown exception, and the value of the last is the return value\nof the function. If there is no matching catch clause, the exception\npropagates out of the function. Before returning, normally or abnormally,\nany finally exprs will be evaluated for their side effects. See\nhttp://clojure.org/special_forms for more information.",
+  :meta {:type "special-form"}}
+ {:name ".",
+  :ns "clojure.core",
+  :doc
+  "The '.' special form is the basis for access to Java. It can be considered\na member-access operator, and/or read as 'in the scope of'. See\nhttp://clojure.org/special_forms for more information.",
+  :meta {:type "special-form"}}
+ {:name "set!",
+  :ns "clojure.core",
+  :doc
+  "Assignment special form. When the first operand is a field member access\nform, the assignment is to the corresponding field. If it is an instance\nfield, the instance expr will be evaluated, then the expr. In all cases\nthe value of expr is returned. Note - you cannot assign to function params\nor local bindings. Only Java fields, Vars, Refs and Agents are mutable in\nClojure. See http://clojure.org/special_forms for more information.",
+  :meta {:type "special-form"}}
+ {:name "monitor-enter",
+  :ns "clojure.core",
+  :doc
+  "A synchronization primitive that should be avoided in user code. Use the\nlocking macro. See http://clojure.org/special_forms for more information.",
+  :meta {:type "special-form"}}
+ {:name "monitor-exit",
+  :ns "clojure.core",
+  :doc
+  "A synchronization primitive that should be avoided in user code. Use the\nlocking macro. See http://clojure.org/special_forms for more information.",
+  :meta {:type "special-form"}}
+ {:name "new",
+  :ns "clojure.core",
+  :doc
+  "Instantiate a class. See http://clojure.org/java_interop#new for\nmore information.",
+  :meta {:type "special-form"}}]
