@@ -121,14 +121,15 @@
                                           defined-by filename macro col name-col end-col
                                           arglist-strs varargs-min-arity doc row
                                           private protocol-ns protocol-name]}]
-                               (let [trim-filename (str/replace filename root "")]
+                               (let [trim-filename (when filename (str/replace filename root ""))]
                                  (assoc-some
                                   {:definition/group group
                                    :definition/artifact artifact
                                    :definition/name (str name)}
                                   :definition/defined-by (some-> defined-by str)
-                                  :definition/namespace (when ns {:namespace/id (str/join "/" [group artifact ns])
-                                                                  :namespace/name (str ns)})
+                                  :definition/namespace (when ns
+                                                          {:namespace/id (str/join "/" [group artifact ns])
+                                                           :namespace/name (str ns)})
                                   :definition/fixed-arities fixed-arities
                                   :definition/arglist-strs arglist-strs
                                   :definition/end-row end-row
@@ -139,13 +140,14 @@
                                   :definition/added added
                                   :definition/author author
                                   :definition/filename trim-filename
-                                  :definition/git-source (str url "/blob/" tag trim-filename "#L" row)
+                                  :definition/git-source (when trim-filename
+                                                           (str url "/blob/" tag trim-filename "#L" row))
                                   :definition/col col
                                   :definition/name-col name-col
                                   :definition/end-col end-col
                                   :definition/doc doc
                                   :definition/row row
-                                  :definition/macro (boolean macro)
+                                  :definition/macro (some-> macro boolean)
                                   :definition/varargs-min-arity varargs-min-arity
                                   :definition/private (boolean private)
                                   :definition/protocol-ns (some-> protocol-ns str)

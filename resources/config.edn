@@ -2,7 +2,8 @@
  :deps {org.clojure/clojure
         {:git/url "https://github.com/clojure/clojure"
          :git/tag "clojure-1.11.1"
-         :git/sha "ce55092f2b2f5481d25cff6205470c1335760ef6"}
+         :git/sha "ce55092f2b2f5481d25cff6205470c1335760ef6"
+         :extras {:definitions ["clojure.core/special-forms.edn"]}}
         org.clojure/core.logic
         {:git/url "https://github.com/clojure/core.logic"
          :git/tag "v1.0.1"
