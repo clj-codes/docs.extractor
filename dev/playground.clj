@@ -51,7 +51,7 @@
   ; tests with generated database
   (let [conn (d/get-conn "target/docs-db" datalevin/db-schemas)
         db (d/db conn)
-        result (doall (d/q '[:find (pull ?e [*]) ?a ?v
+        result (doall (d/q '[:find (pull ?e [* {:namespace/project [*]}]) ?a ?v
                              :in $ ?q
                              :where
                              [(fulltext $ ?q) [[?e ?a ?v]]]]
