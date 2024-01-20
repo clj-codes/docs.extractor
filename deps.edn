@@ -1,10 +1,10 @@
 {:paths ["src" "resources"]
  :deps {org.clojure/clojure {:mvn/version "1.11.1"}
-        org.clojure/tools.deps {:mvn/version "0.18.1335"}
-        clj-kondo/clj-kondo {:mvn/version "2023.04.14"}
-        datalevin/datalevin {:mvn/version "0.8.14"}
+        org.clojure/tools.deps {:mvn/version "0.18.1398"}
+        clj-kondo/clj-kondo {:mvn/version "2023.12.15"}
+        datalevin/datalevin {:mvn/version "0.8.25"}
         com.cognitect/transit-clj {:mvn/version "1.0.333"}
-        org.slf4j/slf4j-nop {:mvn/version "2.0.7"}}
+        org.slf4j/slf4j-nop {:mvn/version "2.0.11"}}
 
  :aliases
  {:extract {:ns-default codes.clj.docs.extractor.core
@@ -13,21 +13,21 @@
             :jvm-opts ["--add-opens=java.base/java.nio=ALL-UNNAMED"
                        "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED"]}
 
-  :build {:deps {io.github.clojure/tools.build {:mvn/version "0.9.4"}}
+  :build {:deps {io.github.clojure/tools.build {:mvn/version "0.9.6"}}
           :ns-default build
           :exec-args {:uber-file "target/extractor.jar"}}
 
   :dev {:extra-paths ["dev" "test" "test-resources"]
         :extra-deps  {clj-http/clj-http             {:mvn/version "3.12.3"}
-                      lambdaisland/kaocha           {:mvn/version "1.82.1306"}
+                      lambdaisland/kaocha           {:mvn/version "1.87.1366"}
                       lambdaisland/kaocha-cloverage {:mvn/version "1.1.89"}
                       nubank/mockfn                 {:mvn/version "0.7.0"}
-                      nubank/matcher-combinators    {:mvn/version "3.8.5"}}
+                      nubank/matcher-combinators    {:mvn/version "3.8.8"}}
         ; needed for datalevin on jvm > 11
         :jvm-opts ["--add-opens=java.base/java.nio=ALL-UNNAMED"
                    "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED"]}
 
-  :nrepl {:extra-deps {cider/cider-nrepl {:mvn/version "0.30.0"}}
+  :nrepl {:extra-deps {cider/cider-nrepl {:mvn/version "0.45.0"}}
           :main-opts ["-m" "nrepl.cmdline" "--middleware" "[cider.nrepl/cider-middleware]"]}
 
   :test {:main-opts ["-m" "kaocha.runner"]
