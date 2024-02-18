@@ -77,8 +77,8 @@
                  [group artifact] (-> project :project-name (str/split #"/"))]
              (->> namespaces
                   group-multi-langs
-                  (mapv (fn [{:keys [end-row meta name-end-col name-end-row name-row added
-                                     name author filename col name-col end-col doc row]}]
+                  (mapv (fn [{:keys [end-row meta name-end-col name-end-row name-row deprecated added
+                                     name author filename col name-col end-col doc no-doc row]}]
                           (let [trim-filename (str/replace filename root "")]
                             (assoc-some
                              {:namespace/id (str/join "/" [group artifact name])
@@ -91,6 +91,7 @@
                              :namespace/name-end-col name-end-col
                              :namespace/name-end-row name-end-row
                              :namespace/name-row name-row
+                             :namespace/deprecated deprecated
                              :namespace/added added
                              :namespace/author author
                              :namespace/filename trim-filename
@@ -99,6 +100,7 @@
                              :namespace/name-col name-col
                              :namespace/end-col end-col
                              :namespace/doc doc
+                             :namespace/no-doc (some-> no-doc boolean)
                              :namespace/row row))))))))
    []
    analysis))
@@ -117,7 +119,7 @@
                   (->> definitions
                        group-multi-langs
                        (mapv (fn [{:keys [fixed-arities end-row meta name-end-col
-                                          name-end-row name-row added ns name author
+                                          name-end-row name-row added deprecated ns name author
                                           defined-by filename macro col name-col end-col
                                           arglist-strs varargs-min-arity doc row
                                           private protocol-ns protocol-name]}]
@@ -138,6 +140,7 @@
                                   :definition/name-end-row name-end-row
                                   :definition/name-row name-row
                                   :definition/added added
+                                  :definition/deprecated deprecated
                                   :definition/author author
                                   :definition/filename trim-filename
                                   :definition/git-source (when trim-filename

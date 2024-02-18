@@ -54,9 +54,21 @@
         result (doall (d/q '[:find (pull ?e [* {:namespace/project [*]}]) ?a ?v
                              :in $ ?q
                              :where
-                             [(fulltext $ ?q) [[?e ?a ?v]]]]
+                             [(fulltext $ ?q {:domains ["definition"]}) [[?e ?a ?v]]]]
                            db
                            "assoc"))]
+    (d/close conn)
+    result)
+
+  ; simple query definition by name
+  (let [conn (d/get-conn "target/docs-db" datalevin/db-schemas)
+        db (d/db conn)
+        result (doall (d/q '[:find (pull ?e [* {:definition/namespace [* {:namespace/project [*]}]}])
+                             :in $ ?q
+                             :where
+                             [?e :definition/name ?q]]
+                           db
+                           "file-position"))]
     (d/close conn)
     result)
 
