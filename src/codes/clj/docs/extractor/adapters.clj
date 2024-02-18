@@ -118,7 +118,7 @@
                       [group artifact] (-> project :project-name (str/split #"/"))]
                   (->> definitions
                        group-multi-langs
-                       (mapv (fn [{:keys [arglists fixed-arities end-row meta name-end-col
+                       (mapv (fn [{:keys [fixed-arities end-row meta name-end-col
                                           name-end-row name-row added deprecated ns name author
                                           defined-by filename macro col name-col end-col
                                           arglist-strs varargs-min-arity doc row
@@ -133,7 +133,6 @@
                                                           {:namespace/id (str/join "/" [group artifact ns])
                                                            :namespace/name (str ns)})
                                   :definition/fixed-arities fixed-arities
-                                  :definition/arglists arglists
                                   :definition/arglist-strs arglist-strs
                                   :definition/end-row end-row
                                   :definition/meta meta
