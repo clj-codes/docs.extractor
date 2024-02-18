@@ -1,10 +1,10 @@
 {:paths ["src" "resources"]
  :deps {org.clojure/clojure {:mvn/version "1.11.1"}
         org.clojure/tools.deps {:mvn/version "0.18.1398"}
-        clj-kondo/clj-kondo {:mvn/version "2023.12.15"}
-        datalevin/datalevin {:mvn/version "0.8.25"}
+        clj-kondo/clj-kondo {:mvn/version "2024.02.12"}
+        datalevin/datalevin {:mvn/version "0.8.26"}
         com.cognitect/transit-clj {:mvn/version "1.0.333"}
-        org.slf4j/slf4j-nop {:mvn/version "2.0.11"}}
+        org.slf4j/slf4j-nop {:mvn/version "2.0.12"}}
 
  :aliases
  {:extract {:ns-default codes.clj.docs.extractor.core
@@ -22,7 +22,7 @@
                       lambdaisland/kaocha           {:mvn/version "1.87.1366"}
                       lambdaisland/kaocha-cloverage {:mvn/version "1.1.89"}
                       nubank/mockfn                 {:mvn/version "0.7.0"}
-                      nubank/matcher-combinators    {:mvn/version "3.8.8"}}
+                      nubank/matcher-combinators    {:mvn/version "3.9.1"}}
         ; needed for datalevin on jvm > 11
         :jvm-opts ["--add-opens=java.base/java.nio=ALL-UNNAMED"
                    "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED"]}
