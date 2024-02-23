@@ -1,5 +1,6 @@
 (ns codes.clj.docs.extractor.datalevin
-  (:require [datalevin.core :as d]))
+  (:require [datalevin.core :as d]
+            [datalevin.search-utils :as su]))
 
 ;; TODO: add id :db.unique/identity and ref :db.type/ref
 
@@ -78,6 +79,15 @@
   (merge project-schema namespace-schema definition-schema))
 
 (defn bulk-transact! [datoms config]
-  (let [conn (-> config :db :dir (d/get-conn db-schemas))]
+  (let [analyzer (su/create-analyzer
+                  {:tokenizer (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+")
+                   :token-filters [su/lower-case-token-filter
+                                   su/prefix-token-filter]})
+        conn (-> config :db :dir
+                 (d/get-conn db-schemas
+                             {:search-opts {:analyzer analyzer}
+                              :search-domains {"project-name" {:analyzer analyzer}
+                                               "namespace-name" {:analyzer analyzer}
+                                               "definition-name" {:analyzer analyzer}}}))]
     (d/transact! conn datoms)
     (d/close conn)))

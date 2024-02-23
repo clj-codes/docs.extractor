@@ -78,7 +78,7 @@
              (->> namespaces
                   group-multi-langs
                   (mapv (fn [{:keys [end-row meta name-end-col name-end-row name-row deprecated added
-                                     name author filename col name-col end-col doc no-doc row]}]
+                                     name author filename col name-col end-col doc no-doc row lang]}]
                           (let [trim-filename (str/replace filename root "")]
                             (assoc-some
                              {:namespace/id (str/join "/" [group artifact name])
@@ -101,7 +101,8 @@
                              :namespace/end-col end-col
                              :namespace/doc doc
                              :namespace/no-doc (some-> no-doc boolean)
-                             :namespace/row row))))))))
+                             :namespace/row row
+                             :namespace/lang lang))))))))
    []
    analysis))
 
@@ -122,7 +123,7 @@
                                           name-end-row name-row added deprecated ns name author
                                           defined-by filename macro col name-col end-col
                                           arglist-strs varargs-min-arity doc row
-                                          private protocol-ns protocol-name]}]
+                                          private protocol-ns protocol-name lang]}]
                                (let [trim-filename (when filename (str/replace filename root ""))]
                                  (assoc-some
                                   {:definition/group group
@@ -154,7 +155,8 @@
                                   :definition/varargs-min-arity varargs-min-arity
                                   :definition/private (boolean private)
                                   :definition/protocol-ns (some-> protocol-ns str)
-                                  :definition/protocol-name (some-> protocol-name str)))))))))
+                                  :definition/protocol-name (some-> protocol-name str)
+                                  :definition/lang lang))))))))
         [])
        (id-by (juxt :definition/group
                     :definition/artifact

@@ -1,10 +1,12 @@
 (ns dev.playground
   (:require [clj-http.client :as http]
             [clojure.java.io :as io]
+            [clojure.string :as str]
             [codes.clj.docs.extractor.core :as core]
             [codes.clj.docs.extractor.datalevin :as datalevin]
             [datalevin.core :as d]
-            [datalevin.util :as util])
+            [datalevin.util :as util]
+            [datalevin.search-utils :as su])
   (:import [java.io File]))
 
 (defn get-url [git-url]
@@ -49,14 +51,17 @@
     (core/extract! {}))
 
   ; tests with generated database
-  (let [conn (d/get-conn "target/docs-db" datalevin/db-schemas)
+  (let [conn (d/get-conn "target/docs-db"
+                         datalevin/db-schemas)
+
         db (d/db conn)
+
         result (doall (d/q '[:find (pull ?e [* {:namespace/project [*]}]) ?a ?v
                              :in $ ?q
                              :where
-                             [(fulltext $ ?q {:domains ["definition"]}) [[?e ?a ?v]]]]
+                             [(fulltext $ ?q {:domains ["definition-name"]}) [[?e ?a ?v]]]]
                            db
-                           "assoc"))]
+                           "associative"))]
     (d/close conn)
     result)
 
@@ -73,25 +78,18 @@
     result)
 
   ; regex searching
-  (let [conn (d/get-conn "target/docs-db" datalevin/db-schemas)
+  (let [conn (d/get-conn "target/docs-db"
+                         datalevin/db-schemas)
         db (d/db conn)
-        result (doall (->> (d/q '[:find [(pull ?e [:definition/id
-                                                   :definition/name
-                                                   :definition/doc
-                                                   :definition/group
-                                                   :definition/artifact
-                                                   :definition/git-source
-                                                   {:definition/namespace [:namespace/name]}]) ...]
+        result (doall (->> (d/q '[:find [(pull ?e [*]) ...]
                                   :in $ ?q
                                   :where
-                                  [(str ?q ".*") ?pattern]
+                                  [(str ".*" ?q ".*") ?pattern]
                                   [(re-pattern ?pattern) ?regex]
                                   [(re-matches ?regex ?name)]
-                                  [?e :definition/name ?name]
-                                  [?e :definition/private false]
-                                  (not [?e :definition/defined-by "cljs.core/defprotocol"])]
+                                  [?e :definition/name ?name]]
                                 db
-                                "def")
+                                "pending")
                            (sort-by (juxt
                                      :definition/id
                                      :definition/name))))]
@@ -119,4 +117,39 @@
                            db
                            "assoc"))]
     (d/close conn)
+    result)
+
+  ; tests with fulltext and analyzer
+  (let [analyzer (su/create-analyzer
+                  {:tokenizer (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+")
+                   :token-filters [su/lower-case-token-filter
+                                   su/prefix-token-filter]})
+
+        dir  "/tmp/mydb"
+        conn (d/create-conn dir
+                            {:text {:db/valueType :db.type/string
+                                    :db/fulltext  true
+                                    :db.fulltext/domains ["txt"]}}
+                            {:search-domains {"txt" {:analyzer analyzer}}})
+
+        data [{:text "assoc!"}
+              {:text "assoc"}
+              {:text "assoc-in"}
+              {:text "assoc-dom"}
+              {:text "assoc-meta"}
+              {:text "associative?"}]
+
+        _transact (d/transact! conn data)
+
+        result (d/q '[:find ?e ?a ?v
+                      :in $ ?q
+                      :where [(fulltext $ ?q {:domains ["txt"]}) [[?e ?a ?v]]]]
+                    (d/db conn)
+                    "a")]
+
+    (d/close conn)
+    (util/delete-files dir)
+
     result))
+
+
