@@ -1,12 +1,11 @@
 (ns dev.playground
   (:require [clj-http.client :as http]
             [clojure.java.io :as io]
-            [clojure.string :as str]
             [codes.clj.docs.extractor.core :as core]
             [codes.clj.docs.extractor.datalevin :as datalevin]
             [datalevin.core :as d]
-            [datalevin.util :as util]
-            [datalevin.search-utils :as su])
+            [datalevin.search-utils :as su]
+            [datalevin.util :as util])
   (:import [java.io File]))
 
 (defn get-url [git-url]
