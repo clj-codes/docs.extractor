@@ -79,15 +79,20 @@
   (merge project-schema namespace-schema definition-schema))
 
 (defn bulk-transact! [datoms config]
-  (let [analyzer (su/create-analyzer
+  (let [query-analyzer (su/create-analyzer
+                        {:tokenizer (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+")
+                         :token-filters [su/lower-case-token-filter]})
+        analyzer (su/create-analyzer
                   {:tokenizer (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+")
                    :token-filters [su/lower-case-token-filter
                                    su/prefix-token-filter]})
         conn (-> config :db :dir
                  (d/get-conn db-schemas
-                             {:search-opts {:analyzer analyzer}
-                              :search-domains {"project-name" {:analyzer analyzer}
-                                               "namespace-name" {:analyzer analyzer}
-                                               "definition-name" {:analyzer analyzer}}}))]
+                             {:search-domains {"project-name" {:query-analyzer query-analyzer
+                                                               :analyzer analyzer}
+                                               "namespace-name" {:query-analyzer query-analyzer
+                                                                 :analyzer analyzer}
+                                               "definition-name" {:query-analyzer query-analyzer
+                                                                  :analyzer analyzer}}}))]
     (d/transact! conn datoms)
     (d/close conn)))
