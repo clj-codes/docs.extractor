@@ -49,24 +49,34 @@
     (println "bulking")
     (core/extract! {}))
 
+  (defn >> [a] (prn a) a)
+
   ; fulltext search with generated database
   (let [conn (d/get-conn "target/docs-db"
                          datalevin/db-schemas)
 
         db (d/db conn)
 
-        result (doall (d/q '[:find ?e ?a ?v ;(pull ?e [*])
-                             :in $ ?q
-                             :where
-                             [(fulltext $ ?q {:top 30
-                                              :domains ["definition-name"]})
-                              [[?e ?a ?v]]]]
-                           db
-                           "a"))]
+        datoms (->> (d/fulltext-datoms db
+                                       "ass"
+                                       {:top 30
+                                        :domains ["definition-name"
+                                                  "namespace-name"
+                                                  "project-name"]})
+                    (map first)
+                    (d/pull-many db '[:definition/id
+                                      :definition/name
+                                      :definition/doc
+                                      :namespace/id
+                                      :namespace/name
+                                      :namespace/doc
+                                      :project/id
+                                      :project/artifact
+                                      :project/group]))]
     (d/close conn)
-    result)
+    datoms)
 
-  ; fulltext raw search with generated database
+; fulltext raw search with generated database
   (let [lmdb (d/open-kv "target/docs-db")
         engine (d/new-search-engine lmdb {:query-analyzer (su/create-analyzer
                                                            {:tokenizer (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+")
@@ -121,10 +131,10 @@
   ; tests with fulltext search
   (let [conn (d/get-conn "target/docs-db" datalevin/db-schemas)
         db (d/db conn)
-        result (doall (d/q '[:find ?e ?name ?a ?v
+        result (doall (d/q '[:find ?e ?name ?a ?v ?b ?d
                              :in $ ?q
                              :where
-                             [(fulltext $ ?q) [[?e ?a ?v]]]
+                             [(fulltext $ ?q) [[?e ?a ?v ?b ?d]]]
                              [?e :definition/name ?name]]
                            db
                            "assoc"))]
@@ -135,6 +145,7 @@
   (let [query-analyzer (su/create-analyzer
                         {:tokenizer (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+")
                          :token-filters [su/lower-case-token-filter]})
+
         analyzer (su/create-analyzer
                   {:tokenizer (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+")
                    :token-filters [su/lower-case-token-filter
@@ -148,29 +159,35 @@
                             {:search-domains {"txt" {:analyzer analyzer
                                                      :query-analyzer query-analyzer}}})
 
-        data [{:text "abs"}
+        data [{:text "a"}
+              {:text "abs"}
               {:text "assoc!"}
               {:text "assoc"}
               {:text "assoc-in"}
               {:text "assoc-dom"}
               {:text "assoc-meta"}
-              {:text "associative?"}]
+              {:text "associative?"}
+              {:text "b"}
+              {:text "ba"}
+              {:text "bas"}]
 
         _transact (d/transact! conn data)
 
-        result (d/q '[:find ?e ?a ?v
-                      :in $ ?q
-                      :where [(fulltext $ ?q {:domains ["txt"]
-                                              :display :refs}) [[?e ?a ?v]]]]
-                    (d/db conn)
-                    "a")]
+        result (->> (d/q '[:find ?i
+                           :in $ ?q
+                           :where
+                           [(fulltext $ ?q {:top 20}) [[?e]]]
+                           [?e :text ?i]]
+                         (d/db conn)
+                         "assoc-me")
+                    doall)]
 
     (d/close conn)
     (util/delete-files dir)
 
     result)
 
-  ; tests with fulltext and analyzer on a raw query
+; tests with fulltext and analyzer on a raw query
   (let [query-analyzer (su/create-analyzer
                         {:tokenizer (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+")
                          :token-filters [su/lower-case-token-filter]})
@@ -186,23 +203,23 @@
                                           :analyzer analyzer
                                           :include-text?   true
                                           :domain "definition-name"})
-        input {1 "abs"
+        input {0 "a"
+               1 "abs"
                2 "assoc!"
                3 "assoc"
                4 "assoc-in"
                5 "assoc-dom"
                6 "assoc-meta"
-               7 "associative?"}
+               7 "associative?"
+               8 "b"
+               9 "ba"
+               10 "bas"}
 
         _transact (doseq [[k v] input]
                     (d/add-doc engine k v))
 
-        result (doall (d/search engine "a" {:top 20 :display :texts}))]
+        result (doall (d/search engine "assoc-m" {:top 20 :display :texts}))]
 
     (d/close-kv lmdb)
 
     result))
-
-
-
-
