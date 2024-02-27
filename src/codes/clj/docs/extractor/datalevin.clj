@@ -1,5 +1,6 @@
 (ns codes.clj.docs.extractor.datalevin
   (:require [datalevin.core :as d]
+            [datalevin.interpret :refer [inter-fn]]
             [datalevin.search-utils :as su]))
 
 ;; TODO: add id :db.unique/identity and ref :db.type/ref
@@ -78,12 +79,24 @@
 (def db-schemas
   (merge project-schema namespace-schema definition-schema))
 
+(defn merge-tokenizers
+  "Merges the results of tokenizer a and b into one sequence."
+  [tokenizer-a tokenizer-b]
+  (inter-fn [^String s]
+    (into (sequence (tokenizer-a s))
+      (sequence (tokenizer-b s)))))
+
 (defn bulk-transact! [datoms config]
   (let [query-analyzer (su/create-analyzer
-                        {:tokenizer (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+")
+                        {:tokenizer (merge-tokenizers
+                                     (su/create-regexp-tokenizer #"[.*]+")
+                                     (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+"))
                          :token-filters [su/lower-case-token-filter]})
+
         analyzer (su/create-analyzer
-                  {:tokenizer (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+")
+                  {:tokenizer (merge-tokenizers
+                               (su/create-regexp-tokenizer #"[.*]+")
+                               (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+"))
                    :token-filters [su/lower-case-token-filter
                                    su/prefix-token-filter]})
         conn (-> config :db :dir
