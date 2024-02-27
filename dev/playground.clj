@@ -4,6 +4,7 @@
             [codes.clj.docs.extractor.core :as core]
             [codes.clj.docs.extractor.datalevin :as datalevin]
             [datalevin.core :as d]
+            [datalevin.interpret :refer [inter-fn]]
             [datalevin.search-utils :as su]
             [datalevin.util :as util])
   (:import [java.io File]))
@@ -58,7 +59,7 @@
         db (d/db conn)
 
         datoms (->> (d/fulltext-datoms db
-                                       "->"
+                                       "."
                                        {:top 30
                                         :domains ["definition-name"
                                                   "namespace-name"
@@ -144,13 +145,13 @@
   ; tests with fulltext and analyzer
   (let [query-analyzer (su/create-analyzer
                         {:tokenizer (datalevin/merge-tokenizers
-                                     (su/create-regexp-tokenizer #"[.]+")
+                                     (inter-fn [s] [[s 0 0]])
                                      (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+"))
                          :token-filters [su/lower-case-token-filter]})
 
         analyzer (su/create-analyzer
                   {:tokenizer (datalevin/merge-tokenizers
-                               (su/create-regexp-tokenizer #"[.]+")
+                               (inter-fn [s] [[s 0 0]])
                                (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+"))
                    :token-filters [su/lower-case-token-filter
                                    su/prefix-token-filter]})
@@ -179,6 +180,7 @@
               {:text "->"}
               {:text "->>"}
               {:text "as->"}
+              {:text "."}
               {:text "as->banana"}]
 
         _transact (d/transact! conn data)
@@ -188,7 +190,7 @@
                            :where
                            [(fulltext $ ?q {:top 20}) [[?e ?a ?v]]]]
                          (d/db conn)
-                         "as->")
+                         "as")
                     doall)]
 
     (d/close conn)
@@ -199,13 +201,13 @@
   ; tests with fulltext and analyzer on a raw query
   (let [query-analyzer (su/create-analyzer
                         {:tokenizer (datalevin/merge-tokenizers
-                                     (su/create-regexp-tokenizer #"[.*]+")
+                                     (inter-fn [s] [[s 0 0]])
                                      (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+"))
                          :token-filters [su/lower-case-token-filter]})
 
         analyzer (su/create-analyzer
                   {:tokenizer (datalevin/merge-tokenizers
-                               (su/create-regexp-tokenizer #"[.*]+")
+                               (inter-fn [s] [[s 0 0]])
                                (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+"))
                    :token-filters [su/lower-case-token-filter
                                    su/prefix-token-filter]})
@@ -231,12 +233,15 @@
                11 "->"
                12 "->>"
                13 "as->"
-               14 "as->banana"}
+               14 "as->banana"
+               15 "/"
+               16 "*"
+               17 "."}
 
         _transact (doseq [[k v] input]
                     (d/add-doc engine k v))
 
-        result (doall (d/search engine "as->" {:top 20 :display :texts}))]
+        result (doall (d/search engine "->" {:top 20 :display :texts}))]
 
     (d/close-kv lmdb)
     (util/delete-files dir)

@@ -89,13 +89,13 @@
 (defn bulk-transact! [datoms config]
   (let [query-analyzer (su/create-analyzer
                         {:tokenizer (merge-tokenizers
-                                     (su/create-regexp-tokenizer #"[.*]+")
+                                     (inter-fn [s] [[s 0 0]])
                                      (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+"))
                          :token-filters [su/lower-case-token-filter]})
 
         analyzer (su/create-analyzer
                   {:tokenizer (merge-tokenizers
-                               (su/create-regexp-tokenizer #"[.*]+")
+                               (inter-fn [s] [[s 0 0]])
                                (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+"))
                    :token-filters [su/lower-case-token-filter
                                    su/prefix-token-filter]})
