@@ -4,6 +4,7 @@
             [codes.clj.docs.extractor.core :as core]
             [codes.clj.docs.extractor.datalevin :as datalevin]
             [datalevin.core :as d]
+            [datalevin.interpret :refer [inter-fn]]
             [datalevin.search-utils :as su]
             [datalevin.util :as util])
   (:import [java.io File]))
@@ -58,7 +59,7 @@
         db (d/db conn)
 
         datoms (->> (d/fulltext-datoms db
-                                       "ass"
+                                       "."
                                        {:top 30
                                         :domains ["definition-name"
                                                   "namespace-name"
@@ -143,15 +144,19 @@
 
   ; tests with fulltext and analyzer
   (let [query-analyzer (su/create-analyzer
-                        {:tokenizer (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+")
+                        {:tokenizer (datalevin/merge-tokenizers
+                                     (inter-fn [s] [[s 0 0]])
+                                     (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+"))
                          :token-filters [su/lower-case-token-filter]})
 
         analyzer (su/create-analyzer
-                  {:tokenizer (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+")
+                  {:tokenizer (datalevin/merge-tokenizers
+                               (inter-fn [s] [[s 0 0]])
+                               (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+"))
                    :token-filters [su/lower-case-token-filter
                                    su/prefix-token-filter]})
 
-        dir  "/tmp/mydb"
+        dir  (str "/tmp/mydb-" (random-uuid))
         conn (d/create-conn dir
                             {:text {:db/valueType :db.type/string
                                     :db/fulltext  true
@@ -169,17 +174,23 @@
               {:text "associative?"}
               {:text "b"}
               {:text "ba"}
-              {:text "bas"}]
+              {:text "bas"}
+              {:text "*"}
+              {:text "/"}
+              {:text "->"}
+              {:text "->>"}
+              {:text "as->"}
+              {:text "."}
+              {:text "as->banana"}]
 
         _transact (d/transact! conn data)
 
-        result (->> (d/q '[:find ?i
+        result (->> (d/q '[:find ?e ?v
                            :in $ ?q
                            :where
-                           [(fulltext $ ?q {:top 20}) [[?e]]]
-                           [?e :text ?i]]
+                           [(fulltext $ ?q {:top 20}) [[?e ?a ?v]]]]
                          (d/db conn)
-                         "assoc-me")
+                         "as")
                     doall)]
 
     (d/close conn)
@@ -187,17 +198,22 @@
 
     result)
 
-; tests with fulltext and analyzer on a raw query
+  ; tests with fulltext and analyzer on a raw query
   (let [query-analyzer (su/create-analyzer
-                        {:tokenizer (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+")
+                        {:tokenizer (datalevin/merge-tokenizers
+                                     (inter-fn [s] [[s 0 0]])
+                                     (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+"))
                          :token-filters [su/lower-case-token-filter]})
 
         analyzer (su/create-analyzer
-                  {:tokenizer (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+")
+                  {:tokenizer (datalevin/merge-tokenizers
+                               (inter-fn [s] [[s 0 0]])
+                               (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+"))
                    :token-filters [su/lower-case-token-filter
                                    su/prefix-token-filter]})
 
-        lmdb (d/open-kv "/tmp/mydb")
+        dir  (str "/tmp/lmdb-" (random-uuid))
+        lmdb (d/open-kv dir)
 
         engine (d/new-search-engine lmdb {:query-analyzer query-analyzer
                                           :analyzer analyzer
@@ -213,13 +229,21 @@
                7 "associative?"
                8 "b"
                9 "ba"
-               10 "bas"}
+               10 "bas"
+               11 "->"
+               12 "->>"
+               13 "as->"
+               14 "as->banana"
+               15 "/"
+               16 "*"
+               17 "."}
 
         _transact (doseq [[k v] input]
                     (d/add-doc engine k v))
 
-        result (doall (d/search engine "assoc-m" {:top 20 :display :texts}))]
+        result (doall (d/search engine "->" {:top 20 :display :texts}))]
 
     (d/close-kv lmdb)
+    (util/delete-files dir)
 
     result))

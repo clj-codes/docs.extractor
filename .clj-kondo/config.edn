@@ -1,0 +1,1 @@
+{:lint-as {datalevin.interpret/inter-fn clojure.core/fn}}

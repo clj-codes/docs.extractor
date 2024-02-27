@@ -5,4 +5,5 @@
                     flow                    [[:block 1]]
                     flow-with-defaults      [[:block 1]]
                     flow-as-of              [[:block 1]]
-                    flow-without-validation [[:block 1]]}}}
+                    flow-without-validation [[:block 1]]
+                    inter-fn                [[:inner 0] [:inner 1]]}}}
