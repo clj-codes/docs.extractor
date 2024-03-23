@@ -1,6 +1,7 @@
 (ns dev.playground
   (:require [clj-http.client :as http]
             [clojure.java.io :as io]
+            [codes.clj.docs.extractor.config :as config]
             [codes.clj.docs.extractor.core :as core]
             [codes.clj.docs.extractor.datalevin :as datalevin]
             [datalevin.core :as d]
@@ -10,7 +11,8 @@
   (:import [java.io File]))
 
 (defn get-url [git-url]
-  (-> (http/get git-url {:as :json})
+  (-> (http/get git-url {;:headers {"Authorization" "Bearer token"}
+                         :as :json})
       :body))
 
 (defn download-unzip [dir url]
@@ -31,7 +33,34 @@
               (io/copy stream saveFile))))
         (recur (.getNextEntry stream))))))
 
+(defn get-github-data [owner-repository]
+  (let [tags (get-url
+              (str "https://api.github.com/repos/"
+                   owner-repository
+                   "/tags"))
+        latest (first tags)
+        latest-hash (get-url
+                     (str "https://api.github.com/repos/"
+                          owner-repository
+                          "/git/ref/tags/"
+                          (:name latest)))]
+    (merge latest latest-hash)))
+
+(defn get-git-deps-info [owner-repository]
+  (let [{:keys [name object]} (-> owner-repository
+                                  get-github-data
+                                  (select-keys [:name :object]))]
+    {:project/name ""
+     :git/url (str "https://github.com/" owner-repository)
+     :git/tag name
+     :git/sha (:sha object)}))
+
 (comment
+  ; getting data from github
+  (mapv get-git-deps-info
+        ["dakrone/clj-http"
+         "dakrone/cheshire"])
+
   ; reset database & download unzip from releases
   (let [dir "target/docs-db"]
     (println "deleting")
@@ -134,13 +163,17 @@
     (d/close conn)
     result)
 
+  ; count deps in config
+  (count (:deps (config/read! "resources/config.edn")))
+
   ; count by project
   (let [conn (d/get-conn "target/docs-db" datalevin/db-schemas)
         db (d/db conn)
-        result (doall (d/q '[:find ?pn ?ps (count ?d)
+        result (doall (d/q '[:find ?pn ?pg (count ?d)
                              :in $
                              :where
                              [?p :project/id]
+                             [?p :project/group ?pg]
                              [?p :project/name ?pn]
                              [?p :project/sha ?ps]
                              [?n :namespace/project ?p]
@@ -159,6 +192,16 @@
                              [?e :definition/name ?name]]
                            db
                            "astoc"))]
+    (d/close conn)
+    result)
+
+  (let [conn (d/get-conn "target/docs-db" datalevin/db-schemas)
+        db (d/db conn)
+        result (doall (d/q '[:find ?e ?a
+                             :in $
+                             :where
+                             [?e :definition/deprecated ?a]]
+                           db))]
     (d/close conn)
     result)
 
