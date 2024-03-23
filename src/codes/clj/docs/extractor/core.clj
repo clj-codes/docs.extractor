@@ -20,8 +20,7 @@
   (let [config (config/read! "resources/config.edn")
         db-conn (datalevin/open-db-coon config)]
     (with-log
-      (parse-projects (:deps config) db-conn)
-      (datalevin/close-db-conn db-conn))))
+      (parse-projects (:deps config) db-conn))))
 
 (defn -main
   "The entry-point for 'gen-class'"

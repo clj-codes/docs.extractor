@@ -111,8 +111,5 @@
                                     "definition-name" {:query-analyzer query-analyzer
                                                        :analyzer analyzer}}})))
 
-(defn close-db-conn [db-conn]
-  #_(d/close db-conn))
-
 (defn bulk-transact! [datoms conn]
   (d/transact! conn datoms))
