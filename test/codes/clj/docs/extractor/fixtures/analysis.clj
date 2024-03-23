@@ -11,7 +11,9 @@
                       "/Users/username/.gitlibs/libs/org.clojure/clojure/ce55092f2b2f5481d25cff6205470c1335760ef6/src/main/clojure"
                       "/Users/username/.gitlibs/libs/org.clojure/clojure/ce55092f2b2f5481d25cff6205470c1335760ef6/src/resources"
                       "/Users/username/.gitlibs/libs/org.clojure/clojure/ce55092f2b2f5481d25cff6205470c1335760ef6/src/clj"]
-              :project-name "org.clojure/clojure"}
+              :project-name "org.clojure/clojure"
+              :artifact "clojure"
+              :group "org.clojure"}
     :namespaces [{:end-row 39
                   :meta {}
                   :name-end-col 19

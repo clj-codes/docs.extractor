@@ -101,14 +101,18 @@
     :token-filters [su/lower-case-token-filter
                     su/prefix-token-filter]}))
 
-(defn bulk-transact! [datoms config]
-  (let [conn (-> config :db :dir
-                 (d/get-conn db-schemas
-                             {:search-domains {"project-name" {:query-analyzer query-analyzer
-                                                               :analyzer analyzer}
-                                               "namespace-name" {:query-analyzer query-analyzer
-                                                                 :analyzer analyzer}
-                                               "definition-name" {:query-analyzer query-analyzer
-                                                                  :analyzer analyzer}}}))]
-    (d/transact! conn datoms)
-    (d/close conn)))
+(defn open-db-coon [config]
+  (-> config :db :dir
+      (d/get-conn db-schemas
+                  {:search-domains {"project-name" {:query-analyzer query-analyzer
+                                                    :analyzer analyzer}
+                                    "namespace-name" {:query-analyzer query-analyzer
+                                                      :analyzer analyzer}
+                                    "definition-name" {:query-analyzer query-analyzer
+                                                       :analyzer analyzer}}})))
+
+(defn close-db-conn [db-conn]
+  #_(d/close db-conn))
+
+(defn bulk-transact! [datoms conn]
+  (d/transact! conn datoms))

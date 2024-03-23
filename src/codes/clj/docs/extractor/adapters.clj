@@ -55,7 +55,7 @@
   [analysis]
   (mapv
    (fn [{:keys [project]}]
-     (let [[group artifact] (-> project :project-name (str/split #"/"))]
+     (let [{:keys [group artifact]} project]
        (assoc-some {:project/id (:project-name project)
                     :project/name (:project-name project)}
                    :project/group group
@@ -73,8 +73,7 @@
   (reduce
    (fn [accum {:keys [project namespaces]}]
      (into accum
-           (let [{:git/keys [url tag] :deps/keys [root]} project
-                 [group artifact] (-> project :project-name (str/split #"/"))]
+           (let [{:keys [group artifact] :git/keys [url tag sha] :deps/keys [root]} project]
              (->> namespaces
                   group-multi-langs
                   (mapv (fn [{:keys [end-row meta name-end-col name-end-row name-row deprecated added
@@ -91,11 +90,11 @@
                              :namespace/name-end-col name-end-col
                              :namespace/name-end-row name-end-row
                              :namespace/name-row name-row
-                             :namespace/deprecated deprecated
+                             :namespace/deprecated (some-> deprecated str)
                              :namespace/added added
                              :namespace/author author
                              :namespace/filename trim-filename
-                             :namespace/git-source (str url "/blob/" tag trim-filename "#L" row)
+                             :namespace/git-source (str url "/blob/" (or tag sha) trim-filename "#L" row)
                              :namespace/col col
                              :namespace/name-col name-col
                              :namespace/end-col end-col
@@ -115,8 +114,7 @@
        (reduce
         (fn [accum {:keys [project definitions]}]
           (into accum
-                (let [{:git/keys [url tag] :deps/keys [root]} project
-                      [group artifact] (-> project :project-name (str/split #"/"))]
+                (let [{:keys [group artifact] :git/keys [url tag sha] :deps/keys [root]} project]
                   (->> definitions
                        group-multi-langs
                        (mapv (fn [{:keys [fixed-arities end-row meta name-end-col
@@ -141,11 +139,11 @@
                                   :definition/name-end-row name-end-row
                                   :definition/name-row name-row
                                   :definition/added added
-                                  :definition/deprecated deprecated
+                                  :definition/deprecated (some-> deprecated str)
                                   :definition/author author
                                   :definition/filename trim-filename
                                   :definition/git-source (when trim-filename
-                                                           (str url "/blob/" tag trim-filename "#L" row))
+                                                           (str url "/blob/" (or tag sha) trim-filename "#L" row))
                                   :definition/col col
                                   :definition/name-col name-col
                                   :definition/end-col end-col

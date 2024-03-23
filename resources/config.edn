@@ -31,4 +31,164 @@
         org.clojure/data.json
         {:git/url "https://github.com/clojure/data.json"
          :git/tag "v2.5.0"
-         :git/sha "457b88e27d7695b38f8b3d9c737e2efb8f2b476d"}}}
+         :git/sha "457b88e27d7695b38f8b3d9c737e2efb8f2b476d"}
+
+        nubank/matcher-combinators
+        {:git/url "https://github.com/nubank/matcher-combinators"
+         :git/tag "3.9.1"
+         :git/sha "beae388ac30d4079a68619aba36ff7e152b20e42"}
+        nubank/state-flow
+        {:deps/manifest :deps
+         :git/url "https://github.com/nubank/state-flow"
+         :git/tag "5.14.5"
+         :git/sha "e86f5136f470c3816e807888c510190b6496f59f"}
+        nubank/mockfn
+        {:deps/manifest :deps
+         :git/url "https://github.com/nubank/mockfn"
+         :git/tag "0.7.0"
+         :git/sha "7e51406edd237ba51687bfef4e66ee521c603b5f"}
+
+        metosin/malli
+        {:deps/manifest :deps
+         :git/url "https://github.com/metosin/malli"
+         :git/tag "0.15.0"
+         :git/sha "8f240d75131a77056303f3a144ad49889d08139f"}
+        metosin/reitit
+        {:deps/manifest :deps
+         :project/source-paths ["modules/reitit/src"
+                                "modules/reitit-core/src"
+                                "modules/reitit-dev/src"
+                                "modules/reitit-ring/src"
+                                "modules/reitit-http/src"
+                                "modules/reitit-middleware/src"
+                                "modules/reitit-openapi/src"
+                                "modules/reitit-interceptors/src"
+                                "modules/reitit-malli/src"
+                                "modules/reitit-spec/src"
+                                "modules/reitit-schema/src"
+                                "modules/reitit-swagger/src"
+                                "modules/reitit-swagger-ui/src"
+                                "modules/reitit-frontend/src"
+                                "modules/reitit-sieppari/src"
+                                "modules/reitit-pedestal/src"]
+         :git/url "https://github.com/metosin/reitit"
+         :git/tag "0.7.0-alpha7"
+         :git/sha "15e0c95cb6e8ab1f653204f910dfb1851c0b0663"}
+        metosin/jsonista
+        {:git/url "https://github.com/metosin/jsonista"
+         :git/tag "0.3.8"
+         :git/sha "8aca9b09ba1964245438dfc104ea26f4ae9c4d21"}
+
+        bidi/bidi
+        {:project/group "juxt"
+         :deps/manifest :deps
+         :git/url "https://github.com/juxt/bidi"
+         :git/tag "2.1.6"
+         :git/sha "06385ef65a54bb8e234da79e67d629403c224797"}
+        aero/aero
+        {:project/group "juxt"
+         :git/url "https://github.com/juxt/aero"
+         :git/tag "1.1.6"
+         :git/sha "c47a10fa5f6a52084d04769af06d5e04d6603e13"}
+        tick/tick
+        {:project/group "juxt"
+         :git/url "https://github.com/juxt/tick"
+         :git/tag "0.7.5"
+         :git/sha "383fed95e906f5b877480b5cf9e0951a8fee4908"}
+
+        aleph/aleph
+        {:project/group "org.clj-commons"
+         :git/url "https://github.com/clj-commons/aleph"
+         :git/tag "0.7.1"
+         :git/sha "f4f6ab07833bd9054c53f5a411d66a4f39ab3715"}
+        manifold/manifold
+        {:deps/manifest :deps
+         :project/group "org.clj-commons"
+         :git/url "https://github.com/clj-commons/manifold"
+         :git/tag "0.4.2"
+         :git/sha "3188eec251dce9508a868cac1f860505ad3b066f"}
+        org.clj-commons/hickory
+        {:git/url "https://github.com/clj-commons/hickory"
+         :git/tag "Release-0.7.4"
+         :git/sha "139484a9066ccac5df31303b5cfc53d0379ffc5d"}
+
+        babashka/sci
+        {:git/url "https://github.com/babashka/sci"
+         :git/tag "v0.8.41"
+         :git/sha "e9fca84a40d975c276717088136bf4c996f9c506"}
+        babashka/fs
+        {:git/url "https://github.com/babashka/fs"
+         :git/tag "v0.5.20"
+         :git/sha "40fcceb22b9728fee1c2ce0e58e390e5fe23f2cd"}
+        babashka/process
+        {:git/url "https://github.com/babashka/process"
+         :git/tag "v0.5.22"
+         :git/sha "c8a5d8ce466dd57ac9680fe526846c37fd2a06fe"}
+
+        lambdaisland/kaocha
+        {:git/url "https://github.com/lambdaisland/kaocha"
+         :git/tag "v1.87.1366"
+         :git/sha "17970292cc99710818f01ac63b61b62dbd3afa23"}
+        lambdaisland/regal
+        {:git/url "https://github.com/lambdaisland/regal"
+         :git/tag "v0.0.143"
+         :git/sha "c99d0b1d66bea9f9b4b772a095c9181deda89580"}
+        lambdaisland/uri
+        {:git/url "https://github.com/lambdaisland/uri"
+         :git/tag "v1.19.155"
+         :git/sha "1b0a2d0d6845af5dd45d3f8685d1db9a20ca56ef"}
+
+        compojure/compojure
+        {:deps/manifest :deps
+         :project/group "weavejester"
+         :git/url "https://github.com/weavejester/compojure"
+         :git/tag "1.7.1"
+         :git/sha "55268be19da2460b08a5cc4e8ac43bdb3baf55b9"}
+        hiccup/hiccup
+        {:deps/manifest :deps
+         :project/group "weavejester"
+         :git/url "https://github.com/weavejester/hiccup"
+         :git/tag "2.0.0-alpha2"
+         :git/sha "56ecd8f7bf70614b69fa2fba8e99a169f6efd5cc"}
+        integrant/integrant
+        {:project/group "weavejester"
+         :git/url "https://github.com/weavejester/integrant"
+         :git/tag "0.9.0-alpha4"
+         :git/sha "e74a0924e2bf26d4b02649319c04b79c64823a89"}
+
+        com.taoensso/sente
+        {:deps/manifest :deps
+         :git/url "https://github.com/taoensso/sente"
+         :git/tag "v1.19.2"
+         :git/sha "71f993b59d4128376108e2e036bc25ad70723a37"}
+        com.taoensso/timbre
+        {:deps/manifest :deps
+         :git/url "https://github.com/taoensso/timbre"
+         :git/tag "v6.5.0"
+         :git/sha "b72cc65290cf2e5136cfa0a3dd449eb806e31ff5"}
+        com.taoensso/carmine
+        {:deps/manifest :deps
+         :git/url "https://github.com/taoensso/carmine"
+         :git/tag "v3.3.2"
+         :git/sha "73b846204c6a9ca2168aa3dbaa1d3f2b151c7e66"}
+
+        clj-http/clj-http
+        {:deps/manifest :deps
+         :project/group "dakrone"
+         :git/url "https://github.com/dakrone/clj-http"
+         :git/tag "3.12.3"
+         :git/sha "99f00af3273aec1fb7bf51e804ecddb2a34a50f2"}
+        cheshire/cheshire
+        {:deps/manifest :deps
+         :project/group "dakrone"
+         :git/url "https://github.com/dakrone/cheshire"
+         :git/tag "5.12.0"
+         :git/sha "08b1d1c8bc8985a9faeea62fca7d8c8f3696721d"}
+
+        lilactown/helix
+        {:git/url "https://github.com/lilactown/helix",
+         :git/sha "35127b79405e5dff6d9b74dfc674280eb93fab6d"}
+        town.lilac/flex
+        {:project/group "lilactown"
+         :git/url "https://github.com/lilactown/flex",
+         :git/sha "afa6491ace9015577ffa9245086f945825a93633"}}}
