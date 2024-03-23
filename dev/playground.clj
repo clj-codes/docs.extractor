@@ -1,8 +1,8 @@
 (ns dev.playground
   (:require [clj-http.client :as http]
             [clojure.java.io :as io]
-            [codes.clj.docs.extractor.core :as core]
             [codes.clj.docs.extractor.config :as config]
+            [codes.clj.docs.extractor.core :as core]
             [codes.clj.docs.extractor.datalevin :as datalevin]
             [datalevin.core :as d]
             [datalevin.interpret :refer [inter-fn]]
