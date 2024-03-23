@@ -36,6 +36,8 @@ CI->>RE: Zip and Publish
 Go to this github [release page](https://github.com/clj-codes/docs.extractor/releases), download and unzip the `docs-db.zip` file.
 
 ## Connecting
+This database depends on `datalevin/datalevin {:mvn/version "0.9.3"}` onwards.
+
 Since `v.0.3.0`, because of the new full-text index analyzers, this database requires this minimal connection opts to be used:
 ```clojure
 (require '[datalevin.core :as d]
