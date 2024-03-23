@@ -86,20 +86,23 @@
     (into (sequence (tokenizer-a s))
       (sequence (tokenizer-b s)))))
 
-(defn bulk-transact! [datoms config]
-  (let [query-analyzer (su/create-analyzer
-                        {:tokenizer (merge-tokenizers
-                                     (inter-fn [s] [[s 0 0]])
-                                     (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+"))
-                         :token-filters [su/lower-case-token-filter]})
+(def query-analyzer
+  (su/create-analyzer
+   {:tokenizer (merge-tokenizers
+                (inter-fn [s] [[s 0 0]])
+                (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+"))
+    :token-filters [su/lower-case-token-filter]}))
 
-        analyzer (su/create-analyzer
-                  {:tokenizer (merge-tokenizers
-                               (inter-fn [s] [[s 0 0]])
-                               (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+"))
-                   :token-filters [su/lower-case-token-filter
-                                   su/prefix-token-filter]})
-        conn (-> config :db :dir
+(def analyzer
+  (su/create-analyzer
+   {:tokenizer (merge-tokenizers
+                (inter-fn [s] [[s 0 0]])
+                (su/create-regexp-tokenizer #"[\s:/\.;,!=?\"'()\[\]{}|<>&@#^*\\~`\-]+"))
+    :token-filters [su/lower-case-token-filter
+                    su/prefix-token-filter]}))
+
+(defn bulk-transact! [datoms config]
+  (let [conn (-> config :db :dir
                  (d/get-conn db-schemas
                              {:search-domains {"project-name" {:query-analyzer query-analyzer
                                                                :analyzer analyzer}

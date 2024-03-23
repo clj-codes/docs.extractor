@@ -1,34 +1,34 @@
 {:db   {:dir "target/docs-db"}
  :deps {org.clojure/clojure
         {:git/url "https://github.com/clojure/clojure"
-         :git/tag "clojure-1.11.1"
-         :git/sha "ce55092f2b2f5481d25cff6205470c1335760ef6"
+         :git/tag "clojure-1.11.2"
+         :git/sha "218054f1f2ddfc69ef4f9d17f916de35e4a4effe"
          :extras {:definitions ["clojure.core/special-forms.edn"]}}
         org.clojure/core.logic
         {:git/url "https://github.com/clojure/core.logic"
-         :git/tag "v1.0.1"
-         :git/sha "d854548a1eb0706150bd5f5d939c7bca162c07fb"}
+         :git/tag "v1.1.0"
+         :git/sha "a489bb3bca10f74edc0e6c3869a9108298ecc060"}
         org.clojure/core.async
         {:git/url "https://github.com/clojure/core.async"
-         :git/tag "v1.6.673"
-         :git/sha "96adc333bb02c8fc60bd51306950b3ad291b3460"}
+         :git/tag "v1.6.681"
+         :git/sha "d7f1f9d8fba7b002e539562fcb33de853df6840e"}
         org.clojure/core.cache
         {:git/url "https://github.com/clojure/core.cache"
-         :git/tag "v1.0.225"
-         :git/sha "b9b3192fd7beda68a06af7de4b6d4c2a54515094"}
+         :git/tag "v1.1.234"
+         :git/sha "dab8bc6f9ef7e5e67947ace0e68238fc2e1dba01"}
         org.clojure/core.memoize
         {:git/url "https://github.com/clojure/core.memoize"
-         :git/tag "v1.0.257"
-         :git/sha "30adac08491ab6dd23db452215dd0c38ea0a42f4"}
+         :git/tag "v1.1.266"
+         :git/sha "a67aebf4506f344211fc66da181437404e28d435"}
         org.clojure/data.csv
         {:git/url "https://github.com/clojure/data.csv"
-         :git/tag "v1.0.1"
-         :git/sha "80c94ef6592f07d62c489359e8535343689d8135"}
+         :git/tag "v1.1.0"
+         :git/sha "c323f899a06653af9d66a8e0212b65d0ac6f7b7f"}
         org.clojure/data.xml
         {:git/url "https://github.com/clojure/data.xml"
-         :git/tag "v0.2.0-alpha8"
-         :git/sha "4fbff240e0e4d57537b616fc4c2b7f28f6555e20"}
+         :git/tag "v0.2.0-alpha9"
+         :git/sha "f5f552c38e76d9d34c6bc2e5b733fec61ad2ac7d"}
         org.clojure/data.json
         {:git/url "https://github.com/clojure/data.json"
-         :git/tag "v2.4.0"
-         :git/sha "43c122e91c5c5e46dc58dc7e8fcbb64bb9f88a14"}}}
+         :git/tag "v2.5.0"
+         :git/sha "457b88e27d7695b38f8b3d9c737e2efb8f2b476d"}}}
