@@ -101,7 +101,7 @@
     :token-filters [su/lower-case-token-filter
                     su/prefix-token-filter]}))
 
-(defn open-db-coon [config]
+(defn open-db-conn [config]
   (-> config :db :dir
       (d/get-conn db-schemas
                   {:search-domains {"project-name" {:query-analyzer query-analyzer

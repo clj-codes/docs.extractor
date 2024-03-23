@@ -8,11 +8,12 @@
             [matcher-combinators.test :refer [match?]])
   (:import [java.util UUID]))
 
-(deftest analysis->datoms-test
-  (let [dir (util/tmp-dir (str "lmdb-test-" (UUID/randomUUID)))]
+(deftest datalevin-test
+  (let [dir (util/tmp-dir (str "lmdb-test-" (UUID/randomUUID)))
+        conn (datalevin/open-db-conn {:db {:dir dir}})]
     (datalevin/bulk-transact!
      (adapters/analysis->datoms fixtures.analysis/raw)
-     {:db {:dir dir}})
+     conn)
 
     (testing "check data exists in database"
       (let [conn (d/get-conn dir datalevin/db-schemas)

@@ -18,7 +18,7 @@
   "Extract data from configured projects and generate Datalevin file."
   [_data]
   (let [config (config/read! "resources/config.edn")
-        db-conn (datalevin/open-db-coon config)]
+        db-conn (datalevin/open-db-conn config)]
     (with-log
       (parse-projects (:deps config) db-conn))))
 
