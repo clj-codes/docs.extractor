@@ -54,14 +54,19 @@
 
   ; fulltext search with generated database
   (let [conn (d/get-conn "target/docs-db"
-                         datalevin/db-schemas)
+                         datalevin/db-schemas
+                         {:search-domains {"project-name" {:query-analyzer datalevin/query-analyzer
+                                                           :analyzer datalevin/analyzer}
+                                           "namespace-name" {:query-analyzer datalevin/query-analyzer
+                                                             :analyzer datalevin/analyzer}
+                                           "definition-name" {:query-analyzer datalevin/query-analyzer
+                                                              :analyzer datalevin/analyzer}}})
 
         db (d/db conn)
 
         datoms (->> (d/fulltext-datoms db
-                                       "."
-                                       {:top 30
-                                        :domains ["definition-name"
+                                       "a"
+                                       {:domains ["definition-name"
                                                   "namespace-name"
                                                   "project-name"]})
                     (map first)
@@ -129,7 +134,22 @@
     (d/close conn)
     result)
 
-  ; tests with fulltext search
+  ; count by project
+  (let [conn (d/get-conn "target/docs-db" datalevin/db-schemas)
+        db (d/db conn)
+        result (doall (d/q '[:find ?pn ?ps (count ?d)
+                             :in $
+                             :where
+                             [?p :project/id]
+                             [?p :project/name ?pn]
+                             [?p :project/sha ?ps]
+                             [?n :namespace/project ?p]
+                             [?d :definition/namespace ?n]]
+                           db))]
+    (d/close conn)
+    result)
+
+; tests with fulltext search
   (let [conn (d/get-conn "target/docs-db" datalevin/db-schemas)
         db (d/db conn)
         result (doall (d/q '[:find ?e ?name ?a ?v ?b ?d
@@ -138,7 +158,7 @@
                              [(fulltext $ ?q) [[?e ?a ?v ?b ?d]]]
                              [?e :definition/name ?name]]
                            db
-                           "assoc"))]
+                           "astoc"))]
     (d/close conn)
     result)
 
