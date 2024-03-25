@@ -2,6 +2,15 @@
 
 Tool to extract namespace/functions documentation from Clojure projects into indexed [datalevin](https://github.com/juji-io/datalevin) file.
 
+# Config `resources/config.edn`
+This file has two main functions:
+- `:db` key is defined where the datalevin files will be placed.
+- `:deps` key is defined which libraries will be downloaded, parsed and indexed in the database
+  - This configuration is made using the same [clojure.tools.deps's git coordinates](https://clojure.org/reference/deps_edn#deps_git) with some extra keys:
+    - `:project/group` use to overide the project group, currently extracted from the lib ORG 
+    - `:deps/manifest :deps` since we use tools.deps we need to set this on pure lein projects to force the download of the lib.
+    - `:project/source-paths` if a lein lib uses `:source-paths`, like reitit, we need to add this information here to indicate to clj-kondo where are the files to analyze.
+
 # CLI
 
 ## Extract and generate datalevin file
@@ -31,15 +40,6 @@ AD->>DB: Adapts & Indexes data into datoms
 DB->>CI: Bulk-transact all datoms
 CI->>RE: Zip and Publish
 ```
-
-# Config `resources/config.edn`
-This file has two main functions:
-- `:db` key is defined where the datalevin files will be placed.
-- `:deps` key is defined which libraries will be downloaded, parsed and indexed in the database
-  - This configuration is made using the same [clojure.tools.deps's git coordinates](https://clojure.org/reference/deps_edn#deps_git) with some extra keys:
-    - `:project/group` use to overide the project group, currently extracted from the lib ORG 
-    - `:deps/manifest :deps` since we use tools.deps we need to set this on pure lein projects to force the download of the lib.
-    - `:project/source-paths` if a lein lib uses `:source-paths`, like reitit, we need to add this information here to indicate to clj-kondo where are the files to analyze.
 
 # Using
 Go to this github [release page](https://github.com/clj-codes/docs.extractor/releases), download and unzip the `docs-db.zip` file.
