@@ -191,4 +191,9 @@
         town.lilac/flex
         {:project/group "lilactown"
          :git/url "https://github.com/lilactown/flex",
-         :git/sha "afa6491ace9015577ffa9245086f945825a93633"}}}
+         :git/sha "afa6491ace9015577ffa9245086f945825a93633"}
+
+        clojure-lsp/clojure-lsp
+        {:project/group "com.github.clojure-lsp"
+         :git/url "https://github.com/clojure-lsp/clojure-lsp",
+         :git/sha "a0bed5e42490b489e5dc30c700d60140fd13debf"}}}
