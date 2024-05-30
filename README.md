@@ -95,6 +95,13 @@ clojure -M:dev:test
 clojure -T:build uberjar
 ```
 
+## Lint
+```bash
+clojure -M:clojure-lsp diagnostics
+clojure -M:clojure-lsp clean-ns
+clojure -M:clojure-lsp format
+```
+
 # Other iterations
 - https://github.com/rafaeldelboni/clojure-document-extractor
 
