@@ -31,4 +31,7 @@
           :main-opts ["-m" "nrepl.cmdline" "--middleware" "[cider.nrepl/cider-middleware]"]}
 
   :test {:main-opts ["-m" "kaocha.runner"]
-         :jvm-opts  ["-Xms3g" "-Xmx3g"]}}}
+         :jvm-opts  ["-Xms3g" "-Xmx3g"]}
+
+  :clojure-lsp {:replace-deps {com.github.clojure-lsp/clojure-lsp-standalone {:mvn/version "2024.04.22-11.50.26"}}
+                :main-opts ["-m" "clojure-lsp.main"]}}}
